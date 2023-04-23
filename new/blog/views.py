@@ -16,7 +16,8 @@ class ResultSearchIndexView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('search')
         if query != None:
-            object_list = Post.objects.filter(Q(body__icontains=query) | Q(title__icontains=query))
+            object_list = Post.objects.filter(
+                Q(body__icontains=query) | Q(title__icontains=query))
         else:
             object_list = Post.objects.all()
         return object_list
