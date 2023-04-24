@@ -10,5 +10,6 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
