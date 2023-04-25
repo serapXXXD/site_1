@@ -11,7 +11,7 @@ class IndexSearchView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('search')
-        if query != None:
+        if query and query != '@#$%^&*()_+=':
             object_list = Post.objects.filter(
                 Q(body__icontains=query) | Q(title__icontains=query))
         else:
