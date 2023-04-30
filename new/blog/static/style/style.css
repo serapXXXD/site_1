@@ -1,0 +1,19 @@
+.tag__list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    list-style: none;
+}
+
+.tag {
+    display: block;
+    padding: 5px;
+    background-color: blue;
+    color: aliceblue;
+    border-radius: 5px;
+}
+
+.tag a {
+    all: unset;
+    cursor: pointer;
+}

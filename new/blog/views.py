@@ -9,6 +9,7 @@ class IndexSearchView(ListView):
     template_name = 'index.html'
     paginate_by = 5
 
+
     def get_queryset(self):
         query = self.request.GET.get('search')
         if query and query != '@#$%^&*()_+=':
@@ -17,3 +18,8 @@ class IndexSearchView(ListView):
         else:
             object_list = Post.objects.all()
         return object_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['tags'] = Tag.objects.all()
+        return context
