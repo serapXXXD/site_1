@@ -1,6 +1,5 @@
 
-from django.db.models.query import QuerySet
-from django.http import HttpResponse
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from .models import *
 from django.db.models import Q
@@ -32,6 +31,10 @@ class IndexSearchView(ListView):
 def tag_view(request, tag_id):
     object_list = Post.objects.filter(tags=tag_id)
     tags = Tag.objects.all()
+    paginator = Paginator(object_list, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {'tags': tags,
-               'object_list': object_list,}
+               'object_list': object_list,
+               'page_obj': page_obj,}
     return render(request, 'tag.html', context)
