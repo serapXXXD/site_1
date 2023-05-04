@@ -13,7 +13,7 @@
     <div>
         <ul class="tag__list">
             {% for tag in tags %}
-                <li class="tag"><a href="{% url 'blog:tag' tag.id %}">{{ tag.title }}</a>
+                <li class="tag"><a href="{% url 'blog:tag' tag.slug %}">{{ tag.title }}</a>
             </li>
             {% endfor%}
             <li class="tag"><a href="{% url 'blog:index' %}">на главную</a>
@@ -21,7 +21,7 @@
         </ul>
     </div>
     <div>
-        {% for post in object_list %}
+        {% for post in page_obj %}
         <div>
             <h4>{{ post.title }}</h4>
             <p>{{ post.body | truncatechars:100 }}</p>

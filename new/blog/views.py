@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.views.generic import ListView
 
 
+
 class IndexSearchView(ListView):
     model = Post
     template_name = 'index.html'
@@ -28,13 +29,13 @@ class IndexSearchView(ListView):
         return context
 
 
-def tag_view(request, tag_id):
-    object_list = Post.objects.filter(tags=tag_id)
+def tag_view(request, tag_slug):
+    object_list = Post.objects.filter(tags__slug=tag_slug)
     tags = Tag.objects.all()
     paginator = Paginator(object_list, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'tags': tags,
-               'object_list': object_list,
+            #    'object_list': object_list,
                'page_obj': page_obj,}
     return render(request, 'tag.html', context)
