@@ -1,11 +1,10 @@
 
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import *
 from django.db.models import Q
 
 from django.views.generic import ListView
-
 
 
 class IndexSearchView(ListView):
@@ -35,7 +34,8 @@ def tag_view(request, tag_slug):
     paginator = Paginator(object_list, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    tag_title = get_object_or_404(Tag, slug=tag_slug)
     context = {'tags': tags,
-            #    'object_list': object_list,
-               'page_obj': page_obj,}
+               'tag_title': tag_title,
+               'page_obj': page_obj, }
     return render(request, 'tag.html', context)

@@ -1,3 +1,30 @@
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      width: 750px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .container {
+      width: 970px;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .container {
+      width: 1170px;
+    }
+  }
+
+
 .tag__list {
     display: flex;
     flex-direction: row;
@@ -16,4 +43,58 @@
 .tag a {
     all: unset;
     cursor: pointer;
+}
+
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.nav-bar__section {
+    display: flex;
+}
+
+.nav-bar__logo {
+    font-size: 30px;
+    text-decoration: none;
+    color: rgb(213, 24, 191);
+}
+
+.nav-bat__itmes {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-bar__item{
+    transition: 250ms;
+
+}
+
+.nav-bar__item:hover {
+    transform: scale(1.2);
+}
+
+.nav-bar__item a {
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.button{
+    all: unset;
+    cursor: pointer;
+    padding: 10px;
+    background-color: rgb(5, 4, 4);
+    color: azure;
+    border-radius: 50%;
+    transition: 430ms;
+}
+
+.button:hover {
+    transform: scale(1.3);
+    background-color: rgb(70, 58, 22);
 }

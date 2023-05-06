@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style/style.css' %}">
+    <title>{% block title %}
+
+    {% endblock %}</title>
+</head>
+
+<body>
+    
+    <header class="container">
+        
+        <nav class="nav-bar">
+            <section class="nav-bar__section"><a class="nav-bar__logo" href="">сайт лого</a>
+            </section>
+            <section class="nav-bar__section">
+                <ul class="nav-bat__itmes">
+                    <li class="nav-bar__item"><a href="{% url 'blog:index' %}"> главная</a></li>
+                    <li class="nav-bar__item"><a href="{% url 'blog:index' %}">посты</a></li>
+                    <li class="nav-bar__item"><a href="{% url 'blog:index' %}"> отзывы </a></li>
+                </ul>
+            </section>
+            <section class="nav-bar__section"><button class="button">login</button></section>
+        </nav>
+    </header>
+    <main class="container">
+{% block content %}
+
+
+
+{% endblock content %}
+    </main>
+<footer class="container"></footer>
+</body>
+
+</html>
