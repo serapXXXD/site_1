@@ -19,14 +19,16 @@
         </form>
     
         <div>
-            {% for post in object_list %}
+            {% for post in posts %}
             <div>
                 <h4>{{ post.title }}</h4>
                 <p>{{ post.body | truncatechars:100 }}</p>
-            </div>
+                <a class='read_more' href="{% url 'blog:post' post.id %}">Читать стих полностью</a>
+                </div>
             {% endfor %}
         </div>
-    
+        <br>
+        <br>
         <div class="pagination">
             <span class="step-links">
                 {% if page_obj.has_previous %}

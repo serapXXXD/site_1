@@ -3,13 +3,13 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from django.db.models import Q
-
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 
 class IndexSearchView(ListView):
     model = Post
     template_name = 'index.html'
+    context_object_name = 'posts'
     paginate_by = 5
 
     def get_queryset(self):
@@ -39,3 +39,11 @@ def tag_view(request, tag_slug):
                'tag_title': tag_title,
                'page_obj': page_obj, }
     return render(request, 'tag.html', context)
+
+
+def show_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post_title = Post.objects.get(id=post_id)
+    context = {'post': post,
+               'post_title': post_title, }
+    return render(request, 'post.html', context)

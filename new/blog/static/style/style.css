@@ -43,6 +43,7 @@
 .tag a {
     all: unset;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .nav-bar {
@@ -98,3 +99,25 @@
     transform: scale(1.3);
     background-color: rgb(70, 58, 22);
 }
+
+.read_more {
+  padding: 6px;
+  background-color: blue ;
+  color: rgb(2, 9, 15);
+  border-radius: 15px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 430ms;
+}
+
+.read_more:hover {
+  background-color: rgb(176, 35, 59);
+}
+
+.pagination{
+  justify-content: center;
+}
+
+.hr {
+  text-transform: uppercase;
+ }
