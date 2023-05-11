@@ -23,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY_FOR_DJANGO', 'qeruzp+#m+ox*p_!)wpi-5hkd^(q9n=-zou!&tnx)%d@h!vmqx')
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY_FOR_DJANGO', 'qeruzp+#m+ox*p_!)wpi-5hkd^(q9n=-zou!&tnx)%d@h!vmqx')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
     'blog.apps.BlogConfig',
+    'authentication.apps.AuthenticationConfig',
 
 ]
 
@@ -124,6 +126,19 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATIC_ROOT = 'static/'
+
+LOGIN_URL = 'authentication:login'
+
+LOGIN_REDIRECT_URL = 'blog:index'
+
+LOGOUT_REDIRECT_URL = 'blog:index'
+
+REGISTER_REDIRECT_URL = 'blog:index'
+
+
+MEDIA_URL = '/phtos/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'photos')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

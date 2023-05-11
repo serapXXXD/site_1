@@ -22,11 +22,21 @@
             <section class="nav-bar__section">
                 <ul class="nav-bat__itmes">
                     <li class="nav-bar__item"><a href="{% url 'blog:index' %}"> главная</a></li>
-                    <li class="nav-bar__item"><a href="{% url 'blog:index' %}">посты</a></li>
-                    <li class="nav-bar__item"><a href="{% url 'blog:index' %}"> отзывы </a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-bar__item"><a href="{% url 'blog:add_post' %}">добавить пост</a></li>
+                    {% endif %}
+                    <li class="nav-bar__item"><a href="{% url 'blog:review' %}"> отзывы </a></li>
                 </ul>
             </section>
-            <section class="nav-bar__section"><button class="button">login</button></section>
+
+            <section class="nav-bar__section">
+                {% if user.is_authenticated %}
+                <button onclick="window.location.href ='{% url "authentication:logout" %}'" class="button">logout</button>
+                {% else %}
+                <button onclick="window.location.href ='{% url "authentication:login" %}'" class="button">login</button>
+                <button onclick="window.location.href ='{% url "authentication:register" %}'" class="button">register</button>
+                {% endif %}
+            </section>
         </nav>
     </header>
     <main class="container">
