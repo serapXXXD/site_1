@@ -1,4 +1,3 @@
-
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from .models import *
@@ -51,10 +50,8 @@ def show_post(request, post_id):
 
 
 def add_post(requset):
-    form = AddPost()
-    if requset.method == "POST":
-        form = AddPost(requset.POST)
-        if form.is_valid():
-            form.save()
+    form = AddPost(requset.POST or None)
+    if form.is_valid():
+        form.save()
     context = {'form': form}
     return render(requset, 'add_post.html',  context)

@@ -21,6 +21,12 @@
         <div>
             {% for post in posts %}
             <div>
+                {% if post.author %}
+                Автор поста: {{post.author}}
+                {% endif %}
+                {% if post.photo %}
+                <img src="{{ post.photo.url }}" >
+                {% endif %}
                 <h4>{{ post.title }}</h4>
                 <p>{{ post.body | truncatechars:100 }}</p>
                 <a class='read_more' href="{% url 'blog:post' post.id %}">Читать стих полностью</a>

@@ -7,6 +7,4 @@ __pycache__/
 .vscode 
 .idea
 .env
-/photo[ s]/
-__photos__/
-__photos__
+photos/

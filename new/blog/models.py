@@ -16,7 +16,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey(User, null=True, on_delete=models.PROTECT)
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, blank=True)
     title = models.CharField(max_length=255, verbose_name='Название')
     photo = models.ImageField(upload_to='photos', verbose_name='Фото', blank=True, null=True)
     body = models.TextField(verbose_name='Текст поста')
