@@ -1,10 +1,9 @@
+
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Tag
+from .models import *
 from django.db.models import Q
-from django.views.generic import ListView
-from .forms import PostForm
-from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView
 
 
 class IndexSearchView(ListView):
@@ -48,18 +47,3 @@ def show_post(request, post_id):
     context = {'post': post,
                'post_title': post_title, }
     return render(request, 'post.html', context)
-
-
-@login_required
-def add_post(request):
-    form = PostForm(request.POST or None)
-    if form.is_valid() and request.method == 'POST':
-        form.save()
-    context = {
-        'form': form
-    }
-    return render(request, 'add_post.html', context)
-
-
-def review(request):
-    return render(request, 'review.html')

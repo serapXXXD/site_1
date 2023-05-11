@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+
 {% block title %}
 Главная
 {% endblock %}
@@ -13,36 +13,18 @@
                 {% endfor%}
             </ul>
         </div>
-
-        <form class="form" action="{% url 'blog:index' %}" method="get">
-            <div class="search-wrapper">
-                <input class="search__input" placeholder="поиск..." name="search" type="text">
-                <button class="custom-btn btn-6" type="submit">Поиск</button>
-            </div>
+        <form action="{% url 'blog:index' %}" method="get">
+            <input name="search" type="text">
+            <button type="submit">Поиск</button>
         </form>
-        <div class="post__list">
+    
+        <div>
             {% for post in posts %}
-            <div class="post">
-                <div>
-                    {% if post.author %}
-                    <p>Автор поста: {{post.author}}</p>
-                    {% endif %}
+            <div>
+                <h4>{{ post.title }}</h4>
+                <p>{{ post.body | truncatechars:100 }}</p>
+                <a class='read_more' href="{% url 'blog:post' post.id %}">Читать стих полностью</a>
                 </div>
-                <div>
-                    {% if post.photo %}
-                    <p><img src="{{ post.photo.url }}"></p>
-                    {% endif %}
-                </div>
-                <div class="post__header">
-                    <h4>{{ post.title | truncatechars:40}}</h4>
-                </div>
-                <div class="post__content">
-                    <p>{{ post.body | truncatechars:100 }}</p>
-                </div>
-                <div class="post__footer" >
-                    <a class="read_more" href="{% url 'blog:post' post.id %}">Читать стих полностью</a>
-                </div>
-            </div>
             {% endfor %}
         </div>
         <br>
