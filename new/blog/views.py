@@ -3,7 +3,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from django.db.models import Q
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
+from .forms import AddPost
 
 
 class IndexSearchView(ListView):
@@ -47,3 +48,13 @@ def show_post(request, post_id):
     context = {'post': post,
                'post_title': post_title, }
     return render(request, 'post.html', context)
+
+
+def add_post(requset):
+    form = AddPost()
+    if requset.method == "POST":
+        form = AddPost(requset.POST)
+        if form.is_valid():
+            form.save()
+    context = {'form': form}
+    return render(requset, 'add_post.html',  context)
