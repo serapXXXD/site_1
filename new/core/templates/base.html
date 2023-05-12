@@ -31,8 +31,10 @@
             {% if user.is_authenticated %}
             <section class="nav-bar__section"><button class="button" onclick="document.location='{% url 'authentication:logout'%}'">logout</button></section>
             {% else %}
-            <section class="nav-bar__section"><button class="button" onclick="document.location='{% url 'authentication:registration'%}'">registration</button></section>
-            <section class="nav-bar__section"><button class="button" onclick="document.location='{% url 'authentication:login'%}'">login</button></section>
+            <section class="nav-bar__section">
+                <button class="button" onclick="document.location='{% url 'authentication:registration'%}'">registration</button>
+            <button class="button" onclick="document.location='{% url 'authentication:login'%}'">login</button>
+            </section>
             {% endif %}
         </nav>
     </header>

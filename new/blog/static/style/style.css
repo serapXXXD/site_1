@@ -55,6 +55,7 @@
 
 .nav-bar__section {
   display: flex;
+  gap: 10px;
 }
 
 .nav-bar__logo {
@@ -102,7 +103,7 @@
 
 .read_more {
   padding: 6px;
-  background-color: blue;
+  background-color: #FDBDBA;
   color: rgb(2, 9, 15);
   border-radius: 15px;
   text-decoration: none;
@@ -117,9 +118,58 @@
 .pagination {
   display: flex;
   flex-direction: row;
-
+  justify-content: center;
 }
 
 .hr {
   text-transform: uppercase;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #FAEEDD;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.post__author {
+  color: rgb(171, 61, 61);
+  padding: 5px 15px;
+  max-width: 100%;
+  background-color: bisque;
+  margin-top: 15px;
+}
+
+.post__list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.post__text {
+padding: 10px;
+}
+
+.post__img {
+  height: 140px;
+}
+
+.post__img img{
+  height: 140px;
+  width: auto;
+}
+
+.post__body{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.post__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }

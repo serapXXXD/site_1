@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import *
-from django.db.models import Q
+from django.db.models import Q, F
 from django.views.generic import ListView
 from .forms import AddPost
 
@@ -49,9 +49,13 @@ def show_post(request, post_id):
     return render(request, 'post.html', context)
 
 
-def add_post(requset):
-    form = AddPost(requset.POST or None)
+def add_post(request):
+    form = AddPost(request.POST or None, request.FILES or None)
+    print('request form', request.POST)
     if form.is_valid():
-        form.save()
+        new_post = form.save(commit=False)
+        new_post.author = request.user
+        new_post.save()
+        return redirect('blog:index')
     context = {'form': form}
-    return render(requset, 'add_post.html',  context)
+    return render(request, 'add_post.html',  context)

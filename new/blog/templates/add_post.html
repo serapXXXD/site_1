@@ -5,10 +5,10 @@
 {% endblock title %}
 
 {% block content %}
-<form action="{% url 'blog:add_post' %}" method="post"></form>
+<form action="{% url 'blog:add_post' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
-    <button>Добавить</button>
+    <button type="submit">Добавить</button>
 </form>
 
 {% endblock content %}
