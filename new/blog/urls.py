@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from .views import IndexSearchView, tag_view, show_post, add_post
 
 app_name = 'blog'
 

@@ -16,9 +16,11 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, blank=True)
+    author = models.ForeignKey(
+        User, null=True, on_delete=models.SET_NULL, blank=True, verbose_name='Автор поста')
     title = models.CharField(max_length=255, verbose_name='Название')
-    photo = models.ImageField(upload_to='photos', verbose_name='Фото', blank=True, null=True)
+    photo = models.ImageField(
+        upload_to='photos', verbose_name='Фото', blank=True, null=True)
     body = models.TextField(verbose_name='Текст поста')
     tags = models.ManyToManyField('Tag', verbose_name='Тэги')
     category = models.ForeignKey(
@@ -44,3 +46,23 @@ class Tag(models.Model):
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
         ordering = ['id']
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,
+                             verbose_name='Публикация', related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               verbose_name='Автор комментария', related_name='comments')
+    text = models.TextField(max_length=1500, verbose_name='Текст комментария')
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name='Дата изменения')
+
+    def __str__(self) -> str:
+        return f"{self.post.title}: {self.text[:100]}"
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ['-created_at']

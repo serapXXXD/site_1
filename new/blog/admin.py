@@ -13,8 +13,10 @@ class CategoryAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
-
+class CommentAdmin(admin.ModelAdmin):
+    ...
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(Comment, CommentAdmin)

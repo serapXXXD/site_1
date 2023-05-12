@@ -1,10 +1,10 @@
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import *
-from django.db.models import Q, F
+from .models import Post, Tag
+from django.db.models import Q
 from django.views.generic import ListView
-from .forms import AddPost
-
+from .forms import PostForm, CommentForm
+from django.urls import reverse_lazy
 
 class IndexSearchView(ListView):
     model = Post
@@ -44,13 +44,23 @@ def tag_view(request, tag_slug):
 def show_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post_title = Post.objects.get(id=post_id)
-    context = {'post': post,
-               'post_title': post_title, }
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+        return redirect('blog:post', post_id)
+    context = {
+        'post': post,
+        'post_title': post_title,
+        'form': form,
+    }
     return render(request, 'post.html', context)
 
 
 def add_post(request):
-    form = AddPost(request.POST or None, request.FILES or None)
+    form = PostForm(request.POST or None, request.FILES or None)
     print('request form', request.POST)
     if form.is_valid():
         new_post = form.save(commit=False)
