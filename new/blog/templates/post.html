@@ -17,17 +17,18 @@
 {% if user.is_authenticated %}
 
 <form 
-    {% if 'comments' in request.path and 'edit' in request.path %}
+    {% if 'comments' in request.path %}
     action="{% url 'blog:comment_edit' post.id comment.id  %}" 
     {% else %}
-    action=""
+    action="{% url 'blog:post' post.id %}"
     {% endif %}
-method="post">
+    method="post">
 
-{% csrf_token %}
-{{form.as_p}}
+    {% csrf_token %}
+    {{request.path}}
+    {{form.as_p}}
 
-<button type="submit">Добавить комментарий</button>
+    <button type="submit">Добавить комментарий</button>
 </form>
 <hr>
 
@@ -36,9 +37,11 @@ method="post">
 <div>
     {% for comment in post.comments.all %}
     <p>
-        {%if request.user == post.author%} 
+        {% if request.user == comment.author %}
         <a href="{% url 'blog:comment_edit' post.id comment.id %}">редактировать комментарий</a> | 
-        <a href="#">удалить комментарий</a>
+        {% endif %}
+        {% if request.user == comment.author or request.user == post.author %}
+        <a href="{% url 'blog:comment_delete' post.id comment.id %}">удалить комментарий</a>
         {% endif %}
     </p>
     <p>Автор комментария: {{comment.author.username}} | 

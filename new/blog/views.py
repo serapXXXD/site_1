@@ -69,7 +69,6 @@ def add_post(request):
         new_post.save()
         tags = form.cleaned_data.pop('tags')
         new_post.tags.add(*tags)
-        print(tags)
         return redirect('blog:index')
     context = {'form': form}
     return render(request, 'add_post.html',  context)
@@ -94,13 +93,12 @@ def post_edit(request, post_id):
 def comment_edit(request, comment_id, post_id):
     comment = get_object_or_404(Comment, id=comment_id)
     post = get_object_or_404(Post, id=post_id)
-    if comment.author == request.user or request.user == post.author:
-        form = CommentForm(request.POST or None, instance=post)
-        print('проверка валидации', request.POST)
+
+    if request.user == comment.author:
+        form = CommentForm(request.POST or None, instance=comment)
         if form.is_valid():
-            print('валиден')
-            form.save()
-            print('сохранён')
+            comment.text = request.POST['text']
+            comment.save()
             return redirect('blog:post', post_id)
     context = {
         'comment': comment,
@@ -114,4 +112,11 @@ def post_delete(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.user == post.author:
         post.delete()
-    return render(request, 'delete_post.html')
+    return render(request, 'delete_post_comment.html')
+
+def comment_delete(request, post_id, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    post = get_object_or_404(Post, id=post_id)
+    if request.user == post.author or request.user == comment.author:
+        comment.delete()
+    return render(request, 'delete_post_comment.html')
