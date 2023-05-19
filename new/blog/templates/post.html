@@ -9,19 +9,40 @@
 
 <p>{{post.body}}</p>
 {% if request.user == post.author %}
-<a href="{% url 'blog:post_edit' post.id %}">редактировать пост</a>
+<a href="{% url 'blog:post_edit' post.id %}">редактировать пост</a> | 
 <a href="{% url 'blog:post_delete' post.id %}">удалить пост</a>
 {% endif %}
 <hr>
-<form action="" method="post">
+
+{% if user.is_authenticated %}
+
+<form 
+    {% if 'comments' in request.path and 'edit' in request.path %}
+    action="{% url 'blog:comment_edit' post.id comment.id  %}" 
+    {% else %}
+    action=""
+    {% endif %}
+method="post">
+
 {% csrf_token %}
 {{form.as_p}}
+
 <button type="submit">Добавить комментарий</button>
 </form>
 <hr>
+
+{% endif %}
+
 <div>
     {% for comment in post.comments.all %}
-    <p>Автор комментария: {{comment.author.username}} дата создания: {{comment.created_at}}</p>
+    <p>
+        {%if request.user == post.author%} 
+        <a href="{% url 'blog:comment_edit' post.id comment.id %}">редактировать комментарий</a> | 
+        <a href="#">удалить комментарий</a>
+        {% endif %}
+    </p>
+    <p>Автор комментария: {{comment.author.username}} | 
+        дата создания: {{comment.created_at}}</p>
     <p>{{comment.text}}</p>
     {% endfor %}
 </div>

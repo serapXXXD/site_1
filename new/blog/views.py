@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Post, Tag
+from .models import Post, Tag, Comment
 from django.db.models import Q
 from django.views.generic import ListView
 from .forms import PostForm, CommentForm
@@ -83,11 +83,31 @@ def post_edit(request, post_id):
                         request.FILES or None, instance=post)
         if form.is_valid():
             form.save()
+            return redirect('blog:post', post_id)
     context = {
         'post': post,
         'form': form,
     }
     return render(request, 'add_post.html',  context)
+
+
+def comment_edit(request, comment_id, post_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    post = get_object_or_404(Post, id=post_id)
+    if comment.author == request.user or request.user == post.author:
+        form = CommentForm(request.POST or None, instance=post)
+        print('проверка валидации', request.POST)
+        if form.is_valid():
+            print('валиден')
+            form.save()
+            print('сохранён')
+            return redirect('blog:post', post_id)
+    context = {
+        'comment': comment,
+        'post': post,
+        'form': form,
+    }
+    return render(request, 'post.html', context)
 
 
 def post_delete(request, post_id):

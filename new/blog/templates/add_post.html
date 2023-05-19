@@ -6,7 +6,11 @@
 
 {% block content %}
 <form 
-action="{% if 'add_post' in request.path %}{% url 'blog:add_post' %}{% else %}{% url 'blog:post_edit' post.id %}{% endif %}" 
+{% if 'add_post' in request.path %}
+action="{% url 'blog:add_post' %}"
+{% else %}
+action="{% url 'blog:post_edit' post.id %}"
+{% endif %}
 method="post" enctype="multipart/form-data">
 
 {% comment %} передаелать экшон вовнутрь ифа для переноса строки{% endcomment %}
