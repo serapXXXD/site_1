@@ -5,10 +5,16 @@
 {% endblock title %}
 
 {% block content %}
-<form action="{% url 'blog:add_post' %}" method="post" enctype="multipart/form-data">
+<form 
+action="{% if 'add_post' in request.path %}{% url 'blog:add_post' %}{% else %}{% url 'blog:post_edit' post.id %}{% endif %}" 
+method="post" enctype="multipart/form-data">
+
+{% comment %} передаелать экшон вовнутрь ифа для переноса строки{% endcomment %}
+
     {% csrf_token %}
+    {{request.path}}
     {{form.as_p}}
-    <button type="submit">Добавить</button>
+    <button type="submit">{% if 'add_post' in request.path %}Добавить{% else %}Обновить{% endif %}</button>
 </form>
 
 {% endblock content %}

@@ -6,6 +6,7 @@ from django.views.generic import ListView
 from .forms import PostForm, CommentForm
 from django.urls import reverse_lazy
 
+
 class IndexSearchView(ListView):
     model = Post
     template_name = 'index.html'
@@ -66,6 +67,31 @@ def add_post(request):
         new_post = form.save(commit=False)
         new_post.author = request.user
         new_post.save()
+        tags = form.cleaned_data.pop('tags')
+        new_post.tags.add(*tags)
+        print(tags)
         return redirect('blog:index')
     context = {'form': form}
     return render(request, 'add_post.html',  context)
+
+
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.user == post.author:
+        form = PostForm(request.POST or None,
+                        request.FILES or None, instance=post)
+        if form.is_valid():
+            form.save()
+    context = {
+        'post': post,
+        'form': form,
+    }
+    return render(request, 'add_post.html',  context)
+
+
+def post_delete(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.user == post.author:
+        post.delete()
+    return render(request, 'delete_post.html')

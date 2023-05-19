@@ -23,6 +23,10 @@ class Post(models.Model):
         upload_to='photos', verbose_name='Фото', blank=True, null=True)
     body = models.TextField(verbose_name='Текст поста')
     tags = models.ManyToManyField('Tag', verbose_name='Тэги')
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name='Дата изменения')
     category = models.ForeignKey(
         'Category', on_delete=models.CASCADE, verbose_name='Категория')
 
