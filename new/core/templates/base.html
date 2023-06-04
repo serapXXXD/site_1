@@ -25,7 +25,7 @@
                     {% if user.is_authenticated %}
                     <li class="nav-bar__item"><a href="{% url 'blog:add_post' %}">Добавить пост</a></li>
                     {% endif %}
-                    <li class="nav-bar__item"><a href="{% url 'blog:index' %}"> отзывы </a></li>
+                    <li class="nav-bar__item"><a href="{% url 'authentication:profile' %}"> профиль </a></li>
                 </ul>
             </section>
             {% if user.is_authenticated %}
