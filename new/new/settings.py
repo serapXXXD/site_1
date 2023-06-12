@@ -126,6 +126,8 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = 'static/'
 
+LOGIN_URL = 'authentication:login'
+
 LOGIN_REDIRECT_URL = 'blog:index'
 
 LOGOUT_REDIRECT_URL = 'blog:index'

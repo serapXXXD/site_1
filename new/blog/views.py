@@ -4,7 +4,6 @@ from .models import Post, Tag, Comment
 from django.db.models import Q
 from django.views.generic import ListView
 from .forms import PostForm, CommentForm
-from django.urls import reverse_lazy
 
 
 class IndexSearchView(ListView):
@@ -113,6 +112,7 @@ def post_delete(request, post_id):
     if request.user == post.author:
         post.delete()
     return render(request, 'delete_post_comment.html')
+
 
 def comment_delete(request, post_id, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
