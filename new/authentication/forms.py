@@ -14,12 +14,16 @@ class RegisterUserForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2')
 
 
-class ProfileUserForm(ProfileUserFormValodator, forms.ModelForm, ):
+class ProfileUserForm(ProfileUserFormValodator, forms.ModelForm):
     password1 = forms.CharField(
         widget=forms.PasswordInput, required=False, validators=[validate_password])
     password2 = forms.CharField(
-        widget=forms.PasswordInput, required=False, )
+        widget=forms.PasswordInput, required=False)
+    birthday = forms.DateField()
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'birthday',
+                  'email', 'password1', 'password2')
+
+

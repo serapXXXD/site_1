@@ -56,6 +56,7 @@ def show_post(request, post_id):
         'post_title': post_title,
         'form': form,
     }
+    print(request.user)
     return render(request, 'post.html', context)
 
 

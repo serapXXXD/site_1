@@ -2,7 +2,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, ModelFormMixin
+from django.views import View
+from django.db.utils import IntegrityError
 from .forms import RegisterUserForm, ProfileUserForm
+from .models import Subscription
+from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 
@@ -36,3 +40,20 @@ class ProfileView(LoginRequiredMixin, UpdateView, ModelFormMixin):
         if password != "" and password:
             user.set_password(password)
         return super().form_valid(form)
+
+
+class Subscribe(LoginRequiredMixin, View):
+    def get(self, request, author_id):
+        author = get_object_or_404(User, pk=author_id)
+        
+        if request.user != author:
+            try:
+                subscription = Subscription.objects.create(
+                    subscriber=request.user, author=author)
+            except IntegrityError:
+                return render(request, 'sub_error.html', {'error': 'уже подписан'})
+        else:
+            return render(request, 'sub_error.html', {'error': 'на себя нельзя подписаться'})
+
+        next = request.GET.get('next', 'blog:index')
+        return redirect(next)
