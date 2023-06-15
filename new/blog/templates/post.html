@@ -5,7 +5,14 @@
 {% endblock title %}
 
 {% block content %}
-<h1 class="hr">{{post.title}}</h2>
+<h1 class="hr">{{post.title}}</h1>
+<div>
+    <h4>Автор поста: {{post.author}}</h4>
+    {% if request.user != post.author %}
+    <a href="{% url 'authentication:subscibe' post.author.id %}">подписаться на автора</a> | 
+    <a href="{% url 'authentication:unsubscribe' post.author.id %}">отписаться</a>
+    {% endif %}
+</div>
 
 <p>{{post.body}}</p>
 {% if request.user == post.author %}

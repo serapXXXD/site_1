@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="post__list">
+    {% for post in page_obj %}
+    <div class='post'>
+        {% if post.author %}
+        <div class="post__author">
+            Автор поста: {{post.author}} | 
+            {% for tag in post.tags.all %} тег поста: {{tag.title}} | {% endfor %}
+            категория поста: {{post.category}} | 
+            дата создания поста: {{post.created_at}}
+            {% if post.created_at != post.updated_at %} | последнее обновление : {{post.updated_at}}{% endif %}
+        </div>
+        {% endif %}
+        
+        <div class="post__body">
+            {% if post.photo %}
+            <div class="post__img">
+                <img src="{{ post.photo.url }}">
+            </div>
+            {% endif %}
+            <div class="post__text">
+                <h4>
+                    {{ post.title }}
+                </h4>
+                <p>
+                    {{ post.body | truncatechars:100 }}
+                </p>
+            </div>
+        </div>
+        <div class="post__footer">
+            <a class='read_more' href="{% url 'blog:post' post.id %}">Читать пост полностью</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; в начало</a>
+        <a href="?page={{ page_obj.previous_page_number }}">предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">следущая</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">в конец &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock content %}
