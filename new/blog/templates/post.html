@@ -9,8 +9,11 @@
 <div>
     <h4>Автор поста: {{post.author}}</h4>
     {% if request.user != post.author %}
-    <a href="{% url 'authentication:subscibe' post.author.id %}">подписаться на автора</a> | 
-    <a href="{% url 'authentication:unsubscribe' post.author.id %}">отписаться</a>
+        {% if is_subscribe %}
+        <a class='unsubscribe'href="{% url 'authentication:unsubscribe' post.author.id %}">отписаться</a>
+        {% else%}
+        <a class='subscibe' href="{% url 'authentication:subscibe' post.author.id %}">подписаться на автора</a>
+        {% endif %}
     {% endif %}
 </div>
 
@@ -38,9 +41,7 @@
     <button type="submit">Добавить комментарий</button>
 </form>
 <hr>
-
 {% endif %}
-
 <div>
     {% for comment in post.comments.all %}
     <p>
@@ -56,5 +57,4 @@
     <p>{{comment.text}}</p>
     {% endfor %}
 </div>
-
 {% endblock content %}

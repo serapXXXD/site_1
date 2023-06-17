@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView, UpdateView, ModelFormMixin, DeleteView
+from django.views.generic.edit import CreateView, UpdateView
 from django.core.paginator import Paginator
 from django.views import View
 from django.db.utils import IntegrityError
@@ -26,13 +26,13 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy('authentication:login')
 
 
-class ProfileView(LoginRequiredMixin, UpdateView, ModelFormMixin):
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'profile.html'
     success_url = reverse_lazy('authentication:profile')
     form_class = ProfileUserForm
 
-    def get_object(self):
+    def get_object(self, **kwargs):
         return self.request.user
 
     def form_valid(self, form):
@@ -42,6 +42,12 @@ class ProfileView(LoginRequiredMixin, UpdateView, ModelFormMixin):
         if password != "" and password:
             user.set_password(password)
         return super().form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subscribers'] = self.request.user.subscribers.all()
+        context['subscriptions'] = self.request.user.subscriptions.all()
+        return context
 
 
 class SubscribeView(LoginRequiredMixin, View):
@@ -72,13 +78,13 @@ def unsubscribe_view(request, author_id):
     return redirect('blog:index')
 
 
-def subscribe_list_view(request):
-    try:
-        sub = Subscription.objects.get(subscriber=request.user.id)
-    except:
+def subscribe_post_view(request):
+    sub = Subscription.objects.filter(subscriber=request.user)
+    if not sub.exists():
         return render(request, 'sub_error.html', {'error': 'Подписок ещё нет'})
 
-    object_list = Post.objects.filter(author=sub.author_id)
+    authors = [s.author for s in sub]
+    object_list = Post.objects.filter(author__in=authors)
     paginator = Paginator(object_list, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

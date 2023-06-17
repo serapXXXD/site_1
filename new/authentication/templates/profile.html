@@ -14,6 +14,20 @@
     <button type="submit">Изменить</button>
 
 </form>
+<br>
+На вас подписаны:
+<ul>
+{% for subs in subscribers%}
+    <li>{{subs.subscriber}}</li>
+{% endfor %}
+</ul>
 
+
+Вы подписаны на:
+<ul>
+{% for subs in subscriptions%}
+    <li>{{subs.author}}</li>
+{% endfor %}
+</ul>
 
 {% endblock content %}

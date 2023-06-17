@@ -4,6 +4,7 @@ from .models import Post, Tag, Comment
 from django.db.models import Q
 from django.views.generic import ListView
 from .forms import PostForm, CommentForm
+from authentication.models import Subscription
 
 
 class IndexSearchView(ListView):
@@ -22,8 +23,8 @@ class IndexSearchView(ListView):
             object_list = Post.objects.all()
         return object_list
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context['tags'] = Tag.objects.all()
         return context
 
@@ -51,7 +52,10 @@ def show_post(request, post_id):
         comment.post = post
         comment.save()
         return redirect('blog:post', post_id)
+    is_subscribe = Subscription.objects.filter(subscriber=request.user, author=post.author).exists()
+
     context = {
+        'is_subscribe': is_subscribe,
         'post': post,
         'post_title': post_title,
         'form': form,

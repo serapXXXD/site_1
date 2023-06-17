@@ -142,26 +142,26 @@
   margin-top: 15px;
 }
 
-.post__list{
+.post__list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
 .post__text {
-padding: 10px;
+  padding: 10px;
 }
 
 .post__img {
   height: 140px;
 }
 
-.post__img img{
+.post__img img {
   height: 140px;
   width: auto;
 }
 
-.post__body{
+.post__body {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -172,4 +172,20 @@ padding: 10px;
   display: flex;
   justify-content: flex-end;
   padding: 5px;
+}
+
+.subscibe {
+  all: unset;
+  background-color: rgb(52, 177, 20);
+  padding: 4px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.unsubscribe {
+  all: unset;
+  background-color: rgb(247, 185, 14);
+  padding: 4px;
+  border-radius: 10px;
+  cursor: pointer;
 }
