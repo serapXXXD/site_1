@@ -24,17 +24,22 @@
                     <li class="nav-bar__item"><a href="{% url 'blog:index' %}"> главная</a></li>
                     {% if user.is_authenticated %}
                     <li class="nav-bar__item"><a href="{% url 'blog:add_post' %}">Добавить пост</a></li>
+
+
+
+                    <li class="nav-bar__item"><a href="{% url 'authentication:subscibe_list' %}"> мои подписки </a></li>
                     {% endif %}
                     <li class="nav-bar__item"><a href="{% url 'authentication:profile' %}"> профиль </a></li>
-                    <li class="nav-bar__item"><a href="{% url 'authentication:subscibe_list' %}"> мои подписки </a></li>
                 </ul>
             </section>
             Вы вошли как: {{request.user}}
             {% if user.is_authenticated %}
-            <section class="nav-bar__section"><button class="button" onclick="document.location='{% url 'authentication:logout'%}'">logout</button></section>
+            <section class="nav-bar__section"><button class="button"
+            onclick="document.location='{% url 'authentication:logout'%}'">logout</button></section>
             {% else %}
             <section class="nav-bar__section">
-                <button class="button" onclick="document.location='{% url 'authentication:registration'%}'">registration</button>
+                <button class="button" onclick="document.location='{% url 'authentication:registration'%}'">registration
+                </button>
             <button class="button" onclick="document.location='{% url 'authentication:login'%}'">login</button>
             </section>
             {% endif %}

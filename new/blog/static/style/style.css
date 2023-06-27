@@ -189,3 +189,7 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.post__photo {
+  max-height: 640px;
+}

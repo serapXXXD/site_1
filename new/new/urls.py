@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("blog.urls", namespace='blog')),
     path('auth/', include("authentication.urls", namespace='authentication')),
+    path('api/v1/', include('api.urls', namespace='api'))
 ]
 
 if settings.DEBUG:

@@ -28,14 +28,16 @@ class Subscription(models.Model):
 
 class Like(models.Model):
     # кто лайкает
-    liker = models.ManyToManyField(User)
+    liker = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='likes')
     # какой пост лайкают
-    liked_post = models.ManyToManyField(Post)
+    liked_post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='likes')
     # я думаю что вроде как больше полей то и не нужно
 
     class Meta:
-        verboe_name = 'лайк'
-        verboe_name_plular = 'лайки'
+        verbose_name = 'лайк'
+        verbose_name = 'лайки'
         ordering = ['-id']
         constraints = [models.UniqueConstraint(
             fields=['liker', 'liked_post'], name='unique_together_liker_post')]

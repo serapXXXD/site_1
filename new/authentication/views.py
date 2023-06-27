@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.core.paginator import Paginator
 from django.views import View
+from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from .forms import RegisterUserForm, ProfileUserForm
 from .models import Subscription
@@ -68,16 +69,16 @@ class SubscribeView(LoginRequiredMixin, View):
 
 
 def unsubscribe_view(request, author_id):
-    unsubscribe = get_object_or_404(Subscription, author_id=author_id)
+    unsubscribe = Subscription.objects.filter(author_id=author_id, subscriber = request.user)
 
-    if request.user != unsubscribe:
+    if unsubscribe.exists():
         unsubscribe.delete()
     else:
         return render(request, 'sub_error.html', {'error': 'от себя не отпидсаться!'})
 
     return redirect('blog:index')
 
-
+@login_required
 def subscribe_post_view(request):
     sub = Subscription.objects.filter(subscriber=request.user)
     if not sub.exists():

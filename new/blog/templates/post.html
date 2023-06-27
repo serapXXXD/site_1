@@ -1,60 +1,70 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{post_title}}
+    {{ post_title }}
 {% endblock title %}
 
 {% block content %}
-<h1 class="hr">{{post.title}}</h1>
-<div>
-    <h4>Автор поста: {{post.author}}</h4>
-    {% if request.user != post.author %}
-        {% if is_subscribe %}
-        <a class='unsubscribe'href="{% url 'authentication:unsubscribe' post.author.id %}">отписаться</a>
-        {% else%}
-        <a class='subscibe' href="{% url 'authentication:subscibe' post.author.id %}">подписаться на автора</a>
+    <h1 class="hr">{{ post.title }}</h1>
+    <div>
+        <h4>Автор поста: {{ post.author }}</h4>
+
+        {% if request.user != post.author and post.author %}
+            {% if is_subscribe %}
+                <a class='unsubscribe' href="{% url 'authentication:unsubscribe' post.author.id %}">отписаться</a>
+            {% else %}
+                <a class='subscibe' href="{% url 'authentication:subscibe' post.author.id %}">подписаться на автора</a>
+            {% endif %}
         {% endif %}
+    </div>
+    <hr>
+    <br>
+    {% if post.photo %}
+        <div class="">
+            <img class="post__photo" src="{{ post.photo.url }}">
+        </div>
     {% endif %}
-</div>
 
-<p>{{post.body}}</p>
-{% if request.user == post.author %}
-<a href="{% url 'blog:post_edit' post.id %}">редактировать пост</a> | 
-<a href="{% url 'blog:post_delete' post.id %}">удалить пост</a>
-{% endif %}
-<hr>
+    <hr>
 
-{% if user.is_authenticated %}
-
-<form 
-    {% if 'comments' in request.path %}
-    action="{% url 'blog:comment_edit' post.id comment.id  %}" 
-    {% else %}
-    action="{% url 'blog:post' post.id %}"
+    <p>{{ post.body }}</p>
+    {% if request.user == post.author %}
+        <a href="{% url 'blog:post_edit' post.id %}">редактировать пост</a> |
+        <a href="{% url 'blog:post_delete' post.id %}">удалить пост</a>
     {% endif %}
-    method="post">
+    <hr>
 
-    {% csrf_token %}
-    {{request.path}}
-    {{form.as_p}}
+    {% if user.is_authenticated %}
 
-    <button type="submit">Добавить комментарий</button>
-</form>
-<hr>
-{% endif %}
-<div>
-    {% for comment in post.comments.all %}
-    <p>
-        {% if request.user == comment.author %}
-        <a href="{% url 'blog:comment_edit' post.id comment.id %}">редактировать комментарий</a> | 
-        {% endif %}
-        {% if request.user == comment.author or request.user == post.author %}
-        <a href="{% url 'blog:comment_delete' post.id comment.id %}">удалить комментарий</a>
-        {% endif %}
-    </p>
-    <p>Автор комментария: {{comment.author.username}} | 
-        дата создания: {{comment.created_at}}</p>
-    <p>{{comment.text}}</p>
-    {% endfor %}
-</div>
+        <form
+                {% if 'comments' in request.path %}
+                    action="{% url 'blog:comment_edit' post.id comment.id %}"
+                {% else %}
+                    action="{% url 'blog:post' post.id %}"
+                {% endif %}
+                    method="post">
+
+            {% csrf_token %}
+            {{ request.path }}
+            {{ form.as_p }}
+
+            <button type="submit">Добавить комментарий</button>
+        </form>
+        <hr>
+    {% endif %}
+    <div>
+        {% for comment in post.comments.all %}
+            <p>
+                {% if request.user == comment.author %}
+                    <a href="{% url 'blog:comment_edit' post.id comment.id %}">редактировать комментарий</a> |
+                {% endif %}
+                {% if request.user == comment.author or request.user == post.author %}
+                    <a href="{% url 'blog:comment_delete' post.id comment.id %}">удалить комментарий</a>
+                {% endif %}
+            </p>
+            <p>Автор комментария: {{ comment.author.username }} |
+                дата создания: {{ comment.created_at }}</p>
+            <p>{{ comment.text }}</p>
+        {% endfor %}
+    </div>
 {% endblock content %}

@@ -1,3 +1,4 @@
+import django.db
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Tag, Comment
@@ -46,13 +47,17 @@ def show_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post_title = Post.objects.get(id=post_id)
     form = CommentForm(request.POST or None)
+
     if form.is_valid():
         comment = form.save(commit=False)
         comment.author = request.user
         comment.post = post
         comment.save()
         return redirect('blog:post', post_id)
-    is_subscribe = Subscription.objects.filter(subscriber=request.user, author=post.author).exists()
+    is_subscribe = False
+
+    if request.user.is_authenticated:
+        is_subscribe = Subscription.objects.filter(subscriber=request.user, author=post.author).exists()
 
     context = {
         'is_subscribe': is_subscribe,
@@ -67,6 +72,7 @@ def show_post(request, post_id):
 def add_post(request):
     form = PostForm(request.POST or None, request.FILES or None)
     print('request form', request.POST)
+
     if form.is_valid():
         new_post = form.save(commit=False)
         new_post.author = request.user
@@ -75,7 +81,8 @@ def add_post(request):
         new_post.tags.add(*tags)
         return redirect('blog:index')
     context = {'form': form}
-    return render(request, 'add_post.html',  context)
+
+    return render(request, 'add_post.html', context)
 
 
 def post_edit(request, post_id):
@@ -91,7 +98,8 @@ def post_edit(request, post_id):
         'post': post,
         'form': form,
     }
-    return render(request, 'add_post.html',  context)
+
+    return render(request, 'add_post.html', context)
 
 
 def comment_edit(request, comment_id, post_id):
