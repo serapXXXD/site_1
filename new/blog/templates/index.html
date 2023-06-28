@@ -23,6 +23,7 @@
     <div class='post'>
         {% if post.author %}
         <div class="post__author">
+            ID: {{ post.id }} |
             Автор поста: {{post.author}} | 
             {% for tag in post.tags.all %} тег поста: {{tag.title}} | {% endfor %}
             категория поста: {{post.category}} | 

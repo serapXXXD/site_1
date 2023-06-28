@@ -22,3 +22,9 @@ class PostCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         exclude = ('author',)
+
+
+class PostPatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('title', 'body')
