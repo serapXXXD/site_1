@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from blog.models import Post, Category
+from blog.models import Post, Category, User
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'title']
+        fields = '__all__'
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -28,3 +28,11 @@ class PostPatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('title', 'body')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    birthday = serializers.DateField(source='profile.birthday', read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'birthday')

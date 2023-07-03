@@ -74,7 +74,7 @@ def unsubscribe_view(request, author_id):
     if unsubscribe.exists():
         unsubscribe.delete()
     else:
-        return render(request, 'sub_error.html', {'error': 'от себя не отпидсаться!'})
+        return render(request, 'sub_error.html', {'error': 'подписка не найдена!'})
 
     return redirect('blog:index')
 
