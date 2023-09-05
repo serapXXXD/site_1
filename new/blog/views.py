@@ -1,4 +1,3 @@
-import django.db
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Tag, Comment
@@ -10,7 +9,7 @@ from authentication.models import Subscription
 
 class IndexSearchView(ListView):
     model = Post
-    template_name = 'index.html'
+    template_name = 'blog/index.html'
     context_object_name = 'posts'
     paginate_by = 5
 
@@ -40,7 +39,7 @@ def tag_view(request, tag_slug):
     context = {'tags': tags,
                'tag_title': tag_title,
                'page_obj': page_obj, }
-    return render(request, 'tag.html', context)
+    return render(request, 'blog/tag.html', context)
 
 
 def show_post(request, post_id):
@@ -66,7 +65,7 @@ def show_post(request, post_id):
         'form': form,
     }
     print(request.user)
-    return render(request, 'post.html', context)
+    return render(request, 'blog/post.html', context)
 
 
 def add_post(request):
@@ -82,7 +81,7 @@ def add_post(request):
         return redirect('blog:index')
     context = {'form': form}
 
-    return render(request, 'add_post.html', context)
+    return render(request, 'blog/add_post.html', context)
 
 
 def post_edit(request, post_id):
@@ -99,7 +98,7 @@ def post_edit(request, post_id):
         'form': form,
     }
 
-    return render(request, 'add_post.html', context)
+    return render(request, 'blog/add_post.html', context)
 
 
 def comment_edit(request, comment_id, post_id):
@@ -117,14 +116,14 @@ def comment_edit(request, comment_id, post_id):
         'post': post,
         'form': form,
     }
-    return render(request, 'post.html', context)
+    return render(request, 'blog/post.html', context)
 
 
 def post_delete(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.user == post.author:
         post.delete()
-    return render(request, 'delete_post_comment.html')
+    return render(request, 'blog/delete_post_comment.html')
 
 
 def comment_delete(request, post_id, comment_id):
@@ -132,4 +131,4 @@ def comment_delete(request, post_id, comment_id):
     post = get_object_or_404(Post, id=post_id)
     if request.user == post.author or request.user == comment.author:
         comment.delete()
-    return render(request, 'delete_post_comment.html')
+    return render(request, 'blog/delete_post_comment.html')

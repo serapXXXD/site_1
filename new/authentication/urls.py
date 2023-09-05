@@ -13,4 +13,3 @@ urlpatterns = [
     path('unsubscribe/<int:author_id>/', unsubscribe_view, name='unsubscribe'),
     path('subscibe_list/', subscribe_post_view, name='subscibe_list'),
 ]
-

@@ -18,18 +18,18 @@ User = get_user_model()
 
 class LoginUserView(LoginView):
     form_class = AuthenticationForm
-    template_name = 'login.html'
+    template_name = 'authentication/login.html'
 
 
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
-    template_name = 'registration.html'
+    template_name = 'authentication/registration.html'
     success_url = reverse_lazy('authentication:login')
 
 
 class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
-    template_name = 'profile.html'
+    template_name = 'authentication/profile.html'
     success_url = reverse_lazy('authentication:profile')
     form_class = ProfileUserForm
 
@@ -60,9 +60,9 @@ class SubscribeView(LoginRequiredMixin, View):
                 subscription = Subscription.objects.create(
                     subscriber=request.user, author=author)
             except IntegrityError:
-                return render(request, 'sub_error.html', {'error': 'уже подписан'})
+                return render(request, 'authentication/sub_error.html', {'error': 'уже подписан'})
         else:
-            return render(request, 'sub_error.html', {'error': 'на себя нельзя подписаться'})
+            return render(request, 'authentication/sub_error.html', {'error': 'на себя нельзя подписаться'})
 
         next = request.GET.get('next', 'blog:index')
         return redirect(next)
@@ -74,7 +74,7 @@ def unsubscribe_view(request, author_id):
     if unsubscribe.exists():
         unsubscribe.delete()
     else:
-        return render(request, 'sub_error.html', {'error': 'подписка не найдена!'})
+        return render(request, 'authentication/sub_error.html', {'error': 'подписка не найдена!'})
 
     return redirect('blog:index')
 
@@ -82,7 +82,7 @@ def unsubscribe_view(request, author_id):
 def subscribe_post_view(request):
     sub = Subscription.objects.filter(subscriber=request.user)
     if not sub.exists():
-        return render(request, 'sub_error.html', {'error': 'Подписок ещё нет'})
+        return render(request, 'authentication/sub_error.html', {'error': 'Подписок ещё нет'})
 
     authors = [s.author for s in sub]
     object_list = Post.objects.filter(author__in=authors)
@@ -90,4 +90,4 @@ def subscribe_post_view(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'subscribe_list.html', {'page_obj': page_obj})
+    return render(request, 'authentication/subscribe_list.html', {'page_obj': page_obj})

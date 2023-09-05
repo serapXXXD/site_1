@@ -1,0 +1,110 @@
+/*font-family: 'Open Sans', sans-serif;*/
+
+.input-wrapper {
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.input-wrapper input {
+    width: 100%;
+}
+
+.input-wrapper button {
+    width: 100%;
+}
+
+.input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #515151;
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.input::placeholder {
+    color: #858484;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.remember {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.catd-text {
+    color: #515151;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.btn {
+    border-radius: 5px;
+    border: 1px solid #9B9898;
+    background: #FFF;
+    padding: 10px 16px;
+    color: #515151;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.btn__icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 8px;
+}
+
+.btn__icon__google {
+    content: ' ';
+    background-image: url('../img/svg/devicon_google.svg');
+}
+
+.card__footter__button {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.card__footter__button__like{
+    content: ' ';
+    background-image: url('../img/svg/like.svg');
+    padding: 0 15px;
+    background-color: #FFF;
+}
+
+.card__footter__button__comment{
+    content: ' ';
+    background-image: url('../img/svg/comment.svg');
+    padding: 0 15px;
+    background-color: #FFF;
+}
+
+.card__footter__button__share{
+    content: ' ';
+    background-image: url('../img/svg/share.svg');
+    padding: 0 15px;
+    background-color: #FFF;
+}

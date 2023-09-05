@@ -1,5 +1,4 @@
 from rest_framework import permissions
-from blog.models import Post
 
 
 class IsAuthorOnly(permissions.BasePermission):
@@ -15,3 +14,13 @@ class IsAdminOrReadOnly(permissions.BasePermission):
             return True
 
         return False
+
+
+class IsObjectAuthor(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            return request.user == obj.author
+

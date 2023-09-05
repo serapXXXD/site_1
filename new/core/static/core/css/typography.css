@@ -1,0 +1,197 @@
+/*font-family: 'Open Sans', sans-serif;*/
+
+
+.main-header {
+    font-size: 32px;
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+@media (min-width: 992px) {
+    .main-header {
+        font-size: 73px;
+    }
+}
+
+
+.header {
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.header-secondary {
+    color: #515151;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.text {
+    color: #515151;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-bold {
+    font-weight: 600;
+}
+
+.text-feed {
+    display: block;
+    padding-top: 24px;
+    padding-left: 24px;
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px;
+}
+
+.text-sheet {
+    color: #515151;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.comment__text__date {
+    color: #515151;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.408px;
+}
+
+.comment__text__name {
+    color: #515151;
+    text-align: center;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: -0.408px;
+}
+
+.add__comment__text {
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+
+.add__comment__text::placeholder {
+    color: #858484;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.comment__reply {
+    color: #515151;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: -0.408px;
+}
+
+.profile__text__edit {
+    color: rgba(0, 0, 0, 0.50);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.profile__text__name {
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+
+}
+
+.profile__text__description {
+    color: #515151;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.profile__text__my_post {
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.profile__text__digits {
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+.profile__text__sotial {
+    color: #515151;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.error{
+    color: rgba(212, 9, 9, 0.82);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px;
+
+}

@@ -3,11 +3,11 @@ from django.db.utils import IntegrityError
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework import generics
+from django.db.models import Q
 from authentication.models import Subscription
 from blog.models import Post, Category
 from .serializers import PostSerializer, PostCreateSerializer, PostPatchSerializer, CategorySerializer, UserSerializer
-from .permissions import IsAuthorOnly, IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly, IsObjectAuthor
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.views import APIView
@@ -19,18 +19,38 @@ from django.shortcuts import get_object_or_404
 User = get_user_model()
 
 
-class PostListAPIView(generics.ListAPIView):
-    queryset = Post.objects.prefetch_related('tags')
-    serializer_class = PostSerializer
-
-
-class PostCreateAPIView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
-    serializer_class = PostCreateSerializer
+    permission_classes = [IsObjectAuthor]
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PostCreateSerializer
+        elif self.action == "update" or self.action == "partial_update":
+            return PostPatchSerializer
+        else:
+            return PostSerializer
+
+    @action(methods=["GET"], detail=False, permission_classes=[IsAuthenticated])
+    def subscriptions(self, request):
+        sub = Subscription.objects.filter(subscriber=request.user)
+        authors = [s.author for s in sub]
+        queryset = self.get_queryset().filter(author__in=authors)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            response = self.get_paginated_response(serializer.data)
+            return response
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if 'search' in self.request.query_params.keys():
+            queryset = queryset.filter(
+                    Q(body__icontains=self.request.query_params.get('search')) |
+                    Q(title__icontains=self.request.query_params.get('search')))
+        return queryset
 
 
 class GetTokenAPIView(APIView):
@@ -47,17 +67,6 @@ class GetTokenAPIView(APIView):
                 return Response({'detail': 'не верный лоигн, или пароль'}, status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'detail': 'отсутсвует лоигн, или пароль'}, status.HTTP_400_BAD_REQUEST)
-
-
-class PatchPostAPIView(generics.UpdateAPIView):
-    permission_classes = [IsAuthorOnly]
-    queryset = Post.objects.all()
-    serializer_class = PostPatchSerializer
-
-
-class DeletePostAPIView(generics.DestroyAPIView):
-    permission_classes = [IsAuthorOnly]
-    queryset = Post.objects.all()
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -77,7 +86,7 @@ class UserViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Gen
 
         if request.user != author:
             try:
-                subscription = Subscription.objects.create(
+                Subscription.objects.create(
                     subscriber=request.user, author=author)
             except IntegrityError:
                 return Response({'error': 'уже подписан'}, status.HTTP_400_BAD_REQUEST)
