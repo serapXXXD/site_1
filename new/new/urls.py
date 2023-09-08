@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("blog.urls", namespace='blog')),
     path('auth/', include("authentication.urls", namespace='authentication')),
-    path('api/v1/', include('api.urls', namespace='api'))
+    path('api/v1/', include('api.urls', namespace='api')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

@@ -37,7 +37,7 @@ class Like(models.Model):
 
     class Meta:
         verbose_name = 'лайк'
-        verbose_name = 'лайки'
+        verbose_name_plural = 'лайки'
         ordering = ['-id']
         constraints = [models.UniqueConstraint(
             fields=['liker', 'liked_post'], name='unique_together_liker_post')]

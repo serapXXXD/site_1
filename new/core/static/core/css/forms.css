@@ -88,23 +88,54 @@
     background-position: center;
 }
 
-.card__footter__button__like{
+.card__footter__button__like {
     content: ' ';
     background-image: url('../img/svg/like.svg');
     padding: 0 15px;
     background-color: #FFF;
 }
 
-.card__footter__button__comment{
+.card__footter__button__comment {
     content: ' ';
     background-image: url('../img/svg/comment.svg');
     padding: 0 15px;
     background-color: #FFF;
 }
 
-.card__footter__button__share{
+.card__footter__button__share {
     content: ' ';
     background-image: url('../img/svg/share.svg');
     padding: 0 15px;
     background-color: #FFF;
 }
+
+.step-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.tag {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.tag_button {
+    border: 1px solid #9B9898;
+    width: 120px;
+    height: 100%;
+    border-radius: 25px;
+    background-color: white;
+}
+
+.subscibe-field {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    justify-content: space-between;
+    vertical-align: center;
+}
+

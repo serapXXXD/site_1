@@ -1,4 +1,3 @@
-from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Tag, Comment
 from django.db.models import Q
@@ -13,33 +12,37 @@ class IndexSearchView(ListView):
     context_object_name = 'posts'
     paginate_by = 5
 
-    def get_queryset(self):
-        query = self.request.GET.get('search')
+    # ?tags=tag_1&tags=tag_2&tags=tag_3
 
-        if query and query != '@#$%^&*()_+=':
-            object_list = Post.objects.filter(
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query, query_tags = self.get_filters()
+        # найти метод который исключает символы
+
+        if query and query not in '@#$%^&*()_+=':
+            queryset = queryset.filter(
                 Q(body__icontains=query) | Q(title__icontains=query))
-        else:
-            object_list = Post.objects.all()
-        return object_list
+            print(query)
+
+        if query_tags:
+            tags = Tag.objects.filter(slug__in=query_tags)
+            queryset = queryset.filter(tags__in=tags)
+        return queryset
+
+    def get_filters(self):
+        query_tags = self.request.GET.getlist('tags', '')
+        query = self.request.GET.get('search')
+        return query, query_tags
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        query, query_tags = self.get_filters()
         context['tags'] = Tag.objects.all()
+        context['query'] = query
+        context['query_tags'] = query_tags
         return context
 
 
-def tag_view(request, tag_slug):
-    object_list = Post.objects.filter(tags__slug=tag_slug)
-    tags = Tag.objects.all()
-    paginator = Paginator(object_list, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    tag_title = get_object_or_404(Tag, slug=tag_slug)
-    context = {'tags': tags,
-               'tag_title': tag_title,
-               'page_obj': page_obj, }
-    return render(request, 'blog/tag.html', context)
 
 
 def show_post(request, post_id):

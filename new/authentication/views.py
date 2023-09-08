@@ -69,7 +69,7 @@ class SubscribeView(LoginRequiredMixin, View):
 
 
 def unsubscribe_view(request, author_id):
-    unsubscribe = Subscription.objects.filter(author_id=author_id, subscriber = request.user)
+    unsubscribe = Subscription.objects.filter(author_id=author_id, subscriber=request.user)
 
     if unsubscribe.exists():
         unsubscribe.delete()
@@ -77,6 +77,7 @@ def unsubscribe_view(request, author_id):
         return render(request, 'authentication/sub_error.html', {'error': 'подписка не найдена!'})
 
     return redirect('blog:index')
+
 
 @login_required
 def subscribe_post_view(request):

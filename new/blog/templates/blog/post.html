@@ -1,70 +1,92 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}
     {{ post_title }}
 {% endblock title %}
 
 {% block content %}
-    <h1 class="hr">{{ post.title }}</h1>
-    <div>
-        <h4>Автор поста: {{ post.author }}</h4>
+    <div class="cut-line"></div>
+    <section class="frame">
+        <div class="card-feed">
+            <div>
+                {% if post.author %}
+                    <div class="card__header">
+                        <button class="login-btn button-foto"
+                                style="background-image: url('{% static 'core/img/svg/Ellipse4.svg' %}');"
+                                onclick="window.location.href='#'"></button>
+                        <b class="login">Автор поста: {{ post.author }}
+                        </b>
+                    </div>
+                {% endif %}
+                {#                <h4>Автор поста: {{ post.author }}</h4>#}
+                <div class="subscibe-field">
+                    <div class="card__body">
+                    <b class="text-sheet">
+                        Тема: {{ post.title }}
+                    </b>
+                    </div>
 
-        {% if request.user != post.author and post.author %}
-            {% if is_subscribe %}
-                <a class='unsubscribe' href="{% url 'authentication:unsubscribe' post.author.id %}">отписаться</a>
-            {% else %}
-                <a class='subscibe' href="{% url 'authentication:subscibe' post.author.id %}">подписаться на автора</a>
+                    {% if request.user != post.author and post.author and user.is_authenticated %}
+                        {% if is_subscribe %}
+                            <a class='text-sheet'
+                               href="{% url 'authentication:unsubscribe' post.author.id %}">отписаться</a>
+                        {% else %}
+                            <a class='text-sheet' href="{% url 'authentication:subscibe' post.author.id %}">
+                                подписаться на автора</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if post.photo %}
+                <div class="post__img">
+                    <img class="post__photo" src="{{ post.photo.url }}">
+                </div>
             {% endif %}
-        {% endif %}
-    </div>
-    <hr>
-    <br>
-    {% if post.photo %}
-        <div class="">
-            <img class="post__photo" src="{{ post.photo.url }}">
-        </div>
-    {% endif %}
 
-    <hr>
+            <hr>
+            <div class="card__body">
+                <b class="text-sheet">{{ post.body }}</b>
+            </div>
+            <div>
+                {% if request.user == post.author %}
+                    <a href="{% url 'blog:post_edit' post.id %}">редактировать пост</a> |
+                    <a href="{% url 'blog:post_delete' post.id %}">удалить пост</a>
+                {% endif %}
+            </div>
 
-    <p>{{ post.body }}</p>
-    {% if request.user == post.author %}
-        <a href="{% url 'blog:post_edit' post.id %}">редактировать пост</a> |
-        <a href="{% url 'blog:post_delete' post.id %}">удалить пост</a>
-    {% endif %}
-    <hr>
+            {% if user.is_authenticated %}
 
-    {% if user.is_authenticated %}
-
-        <form
-                {% if 'comments' in request.path %}
+                <form {% if 'comments' in request.path %}
                     action="{% url 'blog:comment_edit' post.id comment.id %}"
                 {% else %}
                     action="{% url 'blog:post' post.id %}"
                 {% endif %}
                     method="post">
 
-            {% csrf_token %}
-            {{ request.path }}
-            {{ form.as_p }}
+                    {% csrf_token %}
+                    {{ form.as_p }}
 
-            <button type="submit">Добавить комментарий</button>
-        </form>
-        <hr>
-    {% endif %}
-    <div>
-        {% for comment in post.comments.all %}
-            <p>
-                {% if request.user == comment.author %}
-                    <a href="{% url 'blog:comment_edit' post.id comment.id %}">редактировать комментарий</a> |
-                {% endif %}
-                {% if request.user == comment.author or request.user == post.author %}
-                    <a href="{% url 'blog:comment_delete' post.id comment.id %}">удалить комментарий</a>
-                {% endif %}
-            </p>
-            <p>Автор комментария: {{ comment.author.username }} |
-                дата создания: {{ comment.created_at }}</p>
-            <p>{{ comment.text }}</p>
-        {% endfor %}
-    </div>
+                    <button type="submit">Добавить комментарий</button>
+                </form>
+                <hr>
+            {% endif %}
+            <div>
+                {% for comment in post.comments.all %}
+                    <p>
+                        {% if request.user == comment.author %}
+                            <a href="{% url 'blog:comment_edit' post.id comment.id %}">редактировать комментарий</a> |
+                        {% endif %}
+                        {% if request.user == comment.author or request.user == post.author %}
+                            <a href="{% url 'blog:comment_delete' post.id comment.id %}">удалить комментарий</a>
+                        {% endif %}
+                    </p>
+                    <p>Автор комментария: {{ comment.author.username }} |
+                        дата создания: {{ comment.created_at }}</p>
+                    <p>{{ comment.text }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock content %}

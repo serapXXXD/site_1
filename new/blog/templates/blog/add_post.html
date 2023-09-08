@@ -1,24 +1,26 @@
 {% extends 'core/base.html' %}
 
 {% block title %}
-Добавить пост
+    Добавить пост
 {% endblock title %}
 
 {% block content %}
-<form 
-    {% if 'add_post' in request.path %}
-    action="{% url 'blog:add_post' %}"
-    {% else %}
-    action="{% url 'blog:post_edit' post.id %}"
-    {% endif %}
-    method="post" enctype="multipart/form-data">
+    <div class="cut-line"></div>
+    <section class="frame">
+        <form
+                {% if 'add_post' in request.path %}
+                    action="{% url 'blog:add_post' %}"
+                {% else %}
+                    action="{% url 'blog:post_edit' post.id %}"
+                {% endif %}
+                    method="post" enctype="multipart/form-data">
 
-{% comment %} передаелать экшон вовнутрь ифа для переноса строки{% endcomment %}
+            {% comment %} передаелать экшон во внутрь ифа для переноса строки{% endcomment %}
 
-    {% csrf_token %}
-    {{request.path}}
-    {{form.as_p}}
-    <button type="submit">{% if 'add_post' in request.path %}Добавить{% else %}Обновить{% endif %}</button>
-</form>
+            {% csrf_token %}
 
+            {{ form.as_p }}
+            <button type="submit">{% if 'add_post' in request.path %}Добавить{% else %}Обновить{% endif %}</button>
+        </form>
+    </section>
 {% endblock content %}

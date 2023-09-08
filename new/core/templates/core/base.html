@@ -25,10 +25,13 @@
                 <button class="login-btn button-pic"></button>
             </div>
         {% else %}
+            <a class="login" href="{% url 'blog:add_post' %}">Добавить запись</a>
+            <a class="login"  href="{% url 'authentication:logout' %}">Logout</a>
             <div class="login-wrapper">
-                <a class="login" href="#">Hey, Niraj</a>
+
+                <a class="login" href="#">Hey, {{ user.username }}</a>
                 <button class="login-btn button-foto" style="background-image: url('./static/img/svg/Ellipse2.svg');"
-                        onclick="window.location.href='#'"></button>
+                        onclick="window.location.href='{% url "authentication:profile" %}'"></button>
             </div>
         {% endif %}
     </nav>

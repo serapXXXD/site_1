@@ -190,8 +190,9 @@ button:hover {
     margin-right: auto;
     width: 313px;
     height: 100%;
+
     border: 2px solid #9B9898;
-    border-top: none;
+    /*border-top: none;  хотел уать полоску сверху но если пропписать то в "post.html" появляется разрыв*/
     background: rgba(255, 255, 255, 0.50);
     box-shadow: 0px 2px 3px 2px rgba(155, 152, 152, 0.30);
     backdrop-filter: blur(5px);
@@ -430,4 +431,9 @@ button:hover {
 .share__telegram {
     content: ' ';
     background-image: url('../img/svg/sotial/iconsTG24px.svg');
+}
+
+.selected{
+    background-color: black;
+    color: white;
 }

@@ -1,33 +1,42 @@
 {% extends 'core/base.html' %}
 
 {% block title %}
-Профиль
+    Профиль
 {% endblock title %}
 
 {% block content %}
+    <div class="cut-line"></div>
+    <section class="frame">
+        <form method="post">
 
-<form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-    {% csrf_token %}
-    {{form.as_p}}
-    
-    <button type="submit">Изменить</button>
+            <button type="submit">Изменить</button>
 
-</form>
-<br>
-На вас подписаны:
-<ul>
-{% for subs in subscribers%}
-    <li>{{subs.subscriber}}</li>
-{% endfor %}
-</ul>
+        </form>
+    <div>
+        {% if subscribers.count > 0 %}
+            <br>
+            На вас подписаны:
+            <ul>
+                {% for subs in subscribers %}
+                    <li>{{ subs.subscriber }}</li>
+                {% endfor %}
 
+                {% else %}
+                <b>На Вас ещё не кто не подписан</b>
 
-Вы подписаны на:
-<ul>
-{% for subs in subscriptions%}
-    <li>{{subs.author}}</li>
-{% endfor %}
-</ul>
-
+            </ul>
+        {% endif %}
+    </div>
+    <div>
+        Вы подписаны на:
+        <ul>
+            {% for subs in subscriptions %}
+                <li>{{ subs.author }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    </section>
 {% endblock content %}

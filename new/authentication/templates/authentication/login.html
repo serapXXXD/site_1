@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load socialaccount %}
 {% block title %}
     Авторизация
 {% endblock title %}
@@ -16,7 +17,7 @@
                     {% csrf_token %}
                     <div class="input-wrapper">
                         <input class="input" name="username" required type="text"
-                               placeholder="Enter email or phone number">
+                               placeholder="Enter username">
                     </div>
                     <div class="input-wrapper">
                         <input class="input" name="password" required type="password" placeholder="Enter Password">
@@ -38,6 +39,11 @@
                 </div>
                 <div class="input-wrapper">
                     <button id="loginBtn" class="btn">login</button>
+                </div>
+                <div class="input-wrapper">
+                    <button class="btn" onclick="window.location.href='{% provider_login_url 'google' %}'">
+                        <i class="btn__icon btn__icon__google"></i>Sign up with google
+                    </button>
                 </div>
                 <div>
                     <p class="text text-center">Don&rsquo;t have an account?
