@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.views.generic import ListView
 from .forms import PostForm, CommentForm
 from authentication.models import Subscription
-
+from re import findall
 
 class IndexSearchView(ListView):
     model = Post
@@ -17,9 +17,8 @@ class IndexSearchView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         query, query_tags = self.get_filters()
-        # найти метод который исключает символы
 
-        if query and query not in '@#$%^&*()_+=':
+        if query and not findall(r'[@#$%^&*()_+=|/\\]', query):
             queryset = queryset.filter(
                 Q(body__icontains=query) | Q(title__icontains=query))
             print(query)
@@ -31,7 +30,7 @@ class IndexSearchView(ListView):
 
     def get_filters(self):
         query_tags = self.request.GET.getlist('tags', '')
-        query = self.request.GET.get('search')
+        query = self.request.GET.get('search', '')
         return query, query_tags
 
     def get_context_data(self, *args, **kwargs):
@@ -41,8 +40,6 @@ class IndexSearchView(ListView):
         context['query'] = query
         context['query_tags'] = query_tags
         return context
-
-
 
 
 def show_post(request, post_id):

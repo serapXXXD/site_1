@@ -12,13 +12,14 @@
         <div class="tag">
             {% for tag in tags %}
                 <button
-                    data-option="{{ tag.slug }}Option"
-                    onclick="toggleTag(this)"
-                    {% if tag.slug in query_tags %}
-                    class="tag_button selected"
-                    {% else %}
+                        id='tagBtn{{ tag.id }}'
+                        data-option="{{ tag.slug }}Option"
+                        onclick="toggleTag(this)"
+                        {% if tag.slug in query_tags %}
+                        class="tag_button selected"
+                        {% else %}
                         class="tag_button"
-                    {% endif %}
+                        {% endif %}
                 >
                     {{ tag.title }}</button>
             {% endfor %}
@@ -26,14 +27,14 @@
 
         {#        сделать нормальное поле для ввода, класс названы, но пустые#}
         <div class="input-search">
-            <form id="" action="{% url 'blog:index' %}" method="get">
+            <form id="tagsForm" action="{% url 'blog:index' %}" method="get">
                 <select class="hidden" name="tags" multiple>
                     {% for tag in tags %}
                         <option
                                 id="{{ tag.slug }}Option"
                                 value="{{ tag.slug }}"
                                 {% if tag.slug in query_tags %}
-                                    selected
+                                selected
                                 {% endif %}
                         >
                             {{ tag.title }}
@@ -119,5 +120,11 @@
             option.selected = !option.selected;
             button.classList.toggle('selected');
         }
+
+        const tagsForm = document.getElementById('tagsForm');
+        {% for tag in tags %}
+            const tagBtn{{ tag.id }} = document.getElementById('tagBtn{{ tag.id }}');
+            tagBtn{{ tag.id }}.addEventListener('click', () => tagsForm.submit());
+        {% endfor %}
     </script>
 {% endblock js %}
