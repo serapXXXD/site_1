@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.views.generic import ListView
 from .forms import PostForm, CommentForm
 from authentication.models import Subscription
-from re import findall
+
 
 class IndexSearchView(ListView):
     model = Post
@@ -12,16 +12,14 @@ class IndexSearchView(ListView):
     context_object_name = 'posts'
     paginate_by = 5
 
-    # ?tags=tag_1&tags=tag_2&tags=tag_3
 
     def get_queryset(self):
         queryset = super().get_queryset()
         query, query_tags = self.get_filters()
 
-        if query and not findall(r'[@#$%^&*()_+=|/\\]', query):
+        if query:
             queryset = queryset.filter(
                 Q(body__icontains=query) | Q(title__icontains=query))
-            print(query)
 
         if query_tags:
             tags = Tag.objects.filter(slug__in=query_tags)

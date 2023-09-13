@@ -12,7 +12,7 @@
         <div class="tag">
             {% for tag in tags %}
                 <button
-                        id='tagBtn{{ tag.id }}'
+                        id='tagBtn{{ tag.id }}' |
                         data-option="{{ tag.slug }}Option"
                         onclick="toggleTag(this)"
                         {% if tag.slug in query_tags %}
@@ -62,7 +62,7 @@
                         {#                        придумать что делать с фото!!#}
                         {% if post.photo %}
                             <div class="post__img">
-                                <img src="{{ post.photo.url }}">
+                                <img class="post__photo" src="{{ post.photo.url }}">
                             </div>
                         {% endif %}
                         <b class="text-sheet">
@@ -106,8 +106,6 @@
                 </span>
         </div>
     </section>
-
-
 {% endblock content %}
 
 {% block js %}

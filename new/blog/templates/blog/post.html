@@ -22,9 +22,9 @@
                 {#                <h4>Автор поста: {{ post.author }}</h4>#}
                 <div class="subscibe-field">
                     <div class="card__body">
-                    <b class="text-sheet">
-                        Тема: {{ post.title }}
-                    </b>
+                        <b class="text-sheet">
+                            Тема: {{ post.title }}
+                        </b>
                     </div>
 
                     {% if request.user != post.author and post.author and user.is_authenticated %}
@@ -40,14 +40,17 @@
             </div>
 
             {% if post.photo %}
-                <div class="post__img">
-                    <img class="post__photo" src="{{ post.photo.url }}">
+                <div class="">
+                    <img class="post__photo" src="{{ post.photo.url }}" alt="Здесь должна быть фотография,
+                     но что-то пошло не так">
                 </div>
             {% endif %}
 
             <hr>
             <div class="card__body">
                 <b class="text-sheet">{{ post.body }}</b>
+                {{ comment.text }}
+                {{ comment.id }}
             </div>
             <div>
                 {% if request.user == post.author %}
@@ -56,37 +59,131 @@
                 {% endif %}
             </div>
 
-            {% if user.is_authenticated %}
 
-                <form {% if 'comments' in request.path %}
-                    action="{% url 'blog:comment_edit' post.id comment.id %}"
-                {% else %}
-                    action="{% url 'blog:post' post.id %}"
-                {% endif %}
-                    method="post">
-
-                    {% csrf_token %}
-                    {{ form.as_p }}
-
-                    <button type="submit">Добавить комментарий</button>
-                </form>
-                <hr>
-            {% endif %}
             <div>
-                {% for comment in post.comments.all %}
-                    <p>
-                        {% if request.user == comment.author %}
-                            <a href="{% url 'blog:comment_edit' post.id comment.id %}">редактировать комментарий</a> |
-                        {% endif %}
-                        {% if request.user == comment.author or request.user == post.author %}
-                            <a href="{% url 'blog:comment_delete' post.id comment.id %}">удалить комментарий</a>
-                        {% endif %}
-                    </p>
-                    <p>Автор комментария: {{ comment.author.username }} |
-                        дата создания: {{ comment.created_at }}</p>
-                    <p>{{ comment.text }}</p>
-                {% endfor %}
+
+            </div>
+            <div class="card__footer_elements">
+                <div class="card__footer">
+
+                    <button class="card__footter__button card__footter__button__like" id="likeBtn">
+                    </button>
+                    <b class="text-sheet">50</b>
+
+
+                    <button class="card__footter__button card__footter__button__comment" id="commentsBtn">
+                    </button>
+                    <b class="text-sheet">10</b>
+
+
+                    <button class="card__footter__button card__footter__button__share" id="shareBtn">
+                    </button>
+                    <div class="hidden" id="shareBlock">
+                        <div class="share__frame">
+                            <div class="share__frame__item">share</div>
+                            <div class="share__frame__item">
+                                <button class="profile__social__btn ">
+                                    <i class="btn__icon share__whatsapp"></i>whatsapp
+                                </button>
+                            </div>
+                            <div class="share__frame__item">
+                                <button class="profile__social__btn">
+                                    <i class="btn__icon share__telegram"></i>telegram
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="likes hidden" id="likeBlock">
+                <div>
+                    <b class="text-sheet">All Likes</b>
+                </div>
+                <div class="likes__like">
+                    <div class="like-foto"
+                         style="background-image: url('{% static 'core/img/svg/Ellipse 1115.svg' %}');"
+                    >
+                    </div>
+                    <b class="text-sheet">Megan</b>
+                </div>
+            </div>
+            <div class="comments
+            {% if 'comments' in request.path%}
+            {% else %}
+            hidden
+            {% endif %}
+            " id="commentsBlock">
+                <div class="input-wrapper">
+                    {% if user.is_authenticated %}
+                        <form
+                            action="{% url 'blog:post' post.id %}" method="post">
+                        <textarea name="text"
+                                class="comment-field add__comment__text" placeholder="Add your comment"
+                                id="addCommentText"
+                        ></textarea>
+                            <div>
+                                {{ form.text.errors }}
+                            </div>
+                            {% csrf_token %}
+{#                            придумать стиль для кноки#}
+                            <button type="submit">Добавить комментарий</button>
+                        </form>
+                        <hr>
+                    {% endif %}
+
+                </div>
+            {% for com in post.comments.all %}
+
+
+                <div class="commetnts__comment">
+                    <div class="padding-top-10">
+                        <div class="like-foto"
+                             style="background-image: url('{% static 'core/img/svg/Ellipse 1118.svg' %}');">
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <div class="padding-15">
+                            <b class="comment__text__name">{{ com.author }}</b>
+                            <b class="comment__text__date">{{ com.created_at }}</b>
+                        </div>
+
+                        <div class="comment-card" id="comment{{ com.id }}">
+                            <div>
+                                <b class="comment__text__date">{{ com.text }}
+                                    {{ com.id }}
+                                </b>
+                            </div>
+                            <div>
+                                {%  if com.author %}
+                                    <a class="comment__reply" href="{% url 'blog:comment_edit' post.id com.id %}#comment{{ com.id }}">
+                                        Редактировать</a> |
+                                    <a class="comment__reply" href="{% url 'blog:comment_delete' post.id com.id %}">
+                                        Удалить комментарий</a>
+                                    {% if comment.id == com.id %}
+                                    <textarea name="text"
+                                class="comment-field add__comment__text" placeholder="Add your comment"
+                                id="addCommentText"
+                                    >{{ com.text }}</textarea>
+                                    {% endif %}
+                                {% else %}
+                                <b class="comment__reply">Reply</b>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            {% endfor %}
+
             </div>
         </div>
     </section>
 {% endblock content %}
+
+{% block js %}
+    <script src="{% static 'blog/js/main.js' %}"></script>
+{% endblock js %}
