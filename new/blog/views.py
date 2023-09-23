@@ -12,7 +12,6 @@ class IndexSearchView(ListView):
     context_object_name = 'posts'
     paginate_by = 5
 
-
     def get_queryset(self):
         queryset = super().get_queryset()
         query, query_tags = self.get_filters()
@@ -111,6 +110,27 @@ def comment_edit(request, comment_id, post_id):
             return redirect('blog:post', post_id)
     context = {
         'comment': comment,
+        'post': post,
+        'form': form,
+    }
+    return render(request, 'blog/post.html', context)
+
+
+def comment_reply(request, comment_id, post_id):
+    reply_to = get_object_or_404(Comment, id=comment_id)
+    post = get_object_or_404(Post, id=post_id)
+
+    form = CommentForm(request.POST or None)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.reply_to = reply_to
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+        return redirect('blog:post', post_id)
+
+    context = {
+        'reply_to': reply_to,
         'post': post,
         'form': form,
     }

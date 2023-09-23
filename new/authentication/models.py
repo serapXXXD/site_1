@@ -7,7 +7,7 @@ User = get_user_model()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birthday = models.DateField()
+    photo = models.ImageField(null=True, blank=True, upload_to='user_photos', verbose_name='Аватар')
 
 
 class Subscription(models.Model):

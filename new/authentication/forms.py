@@ -3,12 +3,13 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.auth.password_validation import validate_password
 from .validators import ProfileUserFormValodator
-from django.forms import Form
 
 User = get_user_model()
 
 
 class RegisterUserForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
@@ -23,7 +24,4 @@ class ProfileUserForm(ProfileUserFormValodator, forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'birthday',
-                  'email', 'password1', 'password2')
-
-
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')

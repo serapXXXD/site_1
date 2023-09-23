@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class Category(models.Model):
     slug = models.SlugField(verbose_name='Слаг')
     title = models.CharField(max_length=255, verbose_name='Название')
@@ -63,6 +64,7 @@ class Comment(models.Model):
         auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(
         auto_now=True, verbose_name='Дата изменения')
+    reply_to = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Ответ на', null=True, blank=True, related_name='replies')
 
     def __str__(self) -> str:
         return f"{self.post.title}: {self.text[:100]}"
@@ -70,4 +72,4 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
-        ordering = ['-created_at']
+        ordering = ['created_at']

@@ -1,5 +1,8 @@
 {% extends 'core/base.html' %}
 
+{% load tailwind_filters %}
+
+
 {% block title %}
     Добавить пост
 {% endblock title %}
@@ -7,20 +10,26 @@
 {% block content %}
     <div class="cut-line"></div>
     <section class="frame">
-        <form
+        <form class="padding-25"
                 {% if 'add_post' in request.path %}
-                    action="{% url 'blog:add_post' %}"
+              action="{% url 'blog:add_post' %}"
                 {% else %}
-                    action="{% url 'blog:post_edit' post.id %}"
+              action="{% url 'blog:post_edit' post.id %}"
                 {% endif %}
-                    method="post" enctype="multipart/form-data">
-
-            {% comment %} передаелать экшон во внутрь ифа для переноса строки{% endcomment %}
+              method="post" enctype="multipart/form-data">
 
             {% csrf_token %}
 
-            {{ form.as_p }}
+            {{ form|crispy }}
             <button type="submit">{% if 'add_post' in request.path %}Добавить{% else %}Обновить{% endif %}</button>
         </form>
     </section>
 {% endblock content %}
+
+{% block js %}
+    <script>
+    $(document).ready(function() {
+    $('select[name="tags"]').select2();
+    });
+    </script>
+{% endblock js %}

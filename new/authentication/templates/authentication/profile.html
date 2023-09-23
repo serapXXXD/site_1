@@ -1,13 +1,42 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}
     Профиль
 {% endblock title %}
 
 {% block content %}
-    <div class="cut-line"></div>
-    <section class="frame">
-        <form method="post">
+<main class="container">
+        <section class="frame__profile">
+            <div class="card__feed__profile">
+                <div class="profile__edit">
+                    <a class="profile__text__edit" href="#">Edit</a>
+                </div>
+                <div class="profile__main">
+                    <div class="profile__foto" style="background-image: url('{% static 'core/img/svg/' %}');"></div>
+                    <div>
+                        <div class="padding-top-60">
+                            <b class="profile__text__name">{{ user.username }}</b>
+                        </div>
+                        <div class="padding-top-20">
+                            <b class="profile__text__description">Blockchain is a decentralized , tamper - resistant
+                                ledger that records transactions across
+                            </b>
+                        </div>
+                        <div class="padding-top-40">
+                            <b class="profile__text__my_post">Liked Post:</b>
+                            <b class="profile__text__digits">{{ likes_count }}</b>
+                        </div>
+                        <div class="padding-top-20">
+                            <b class="profile__text__my_post">My Post:</b>
+                            <b class="profile__text__digits">{{ posts_count }}</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            <form method="post">
 
             {% csrf_token %}
             {{ form.as_p }}

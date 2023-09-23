@@ -7,7 +7,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from .forms import RegisterUserForm, ProfileUserForm
-from .models import Subscription
+from .models import Subscription, Like
 from blog.models import Post
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import get_user_model
@@ -46,6 +46,8 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['likes_count'] = Like.objects.filter(liker=self.request.user).count()
+        context['posts_count'] = Post.objects.filter(author=self.request.user).count()
         context['subscribers'] = self.request.user.subscribers.all()
         context['subscriptions'] = self.request.user.subscriptions.all()
         return context

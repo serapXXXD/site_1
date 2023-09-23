@@ -38,11 +38,22 @@ shareBtn.addEventListener('click', () => {
     toggleBlock('share')
 });
 
+
+function selectComment(commentId){
+    console.log(commentId)
+    const comment = document.getElementById(commentId)
+    comment.classList.toggle('box-reply-to')
+    setTimeout(()=>{
+        comment.classList.toggle('box-reply-to');
+    }, 800)
+}
+
+
 // держать в самом конце файла
 const textArea = document.getElementById('addCommentText')
 textArea.addEventListener('focusin', () => {
     textArea.setAttribute('rows', 8)
 })
-textArea.addEventListener('focusout', () => {
-    textArea.setAttribute('rows', 1)
-})
+// textArea.addEventListener('focusout', () => {
+//     textArea.setAttribute('rows', 1)
+// })

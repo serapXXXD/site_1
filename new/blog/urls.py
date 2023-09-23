@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (IndexSearchView, show_post, add_post, post_edit,
-                    post_delete, comment_edit, comment_delete)
+                    post_delete, comment_edit, comment_delete, comment_reply)
 
 app_name = 'blog'
 
@@ -14,4 +14,6 @@ urlpatterns = [
          comment_edit, name='comment_edit'),
     path('blog/post/<int:post_id>/comments/<int:comment_id>/delete/',
          comment_delete, name='comment_delete'),
+    path('blog/post/<int:post_id>/comments/<int:comment_id>/reply/',
+         comment_reply, name='comment_reply'),
 ]

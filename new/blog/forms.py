@@ -10,8 +10,11 @@ class PostForm(forms.ModelForm):
             'photo',
             'body',
             'tags',
-            'category'
+            'category',
         )
+        widgets = {
+            'tags': forms.Select(attrs={'multiple': True})
+        }
 
 
 class CommentForm(forms.ModelForm):
