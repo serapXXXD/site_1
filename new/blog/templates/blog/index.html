@@ -25,7 +25,6 @@
             {% endfor %}
         </div>
 
-        {#        сделать нормальное поле для ввода, класс названы, но пустые#}
         <div class="input-search">
             <form id="tagsForm" action="{% url 'blog:index' %}" method="get">
                 <select class="hidden" name="tags" multiple>
@@ -42,7 +41,7 @@
                     {% endfor %}
                 </select>
                 <div class=" search-wrapper">
-                    <input class="search-input" type="text">
+                    <input class="search-input" name="search" type="text">
                     <button type="submit">Поиск</button>
                 </div>
             </form>
@@ -55,8 +54,8 @@
                             <button class="login-btn button-foto"
                                     style="background-image: url('{% static 'core/img/svg/Ellipse4.svg' %}');"
                                     onclick="window.location.href='#'"></button>
-                            <b class="login">Автор поста: {{ post.author }}
-                            </b>
+                            <a class="login" href="{% url 'blog:index' %}?user={{ post.author }}">Автор поста: {{ post.author }}
+                            </a>
                         </div>
                     {% endif %}
 
@@ -89,12 +88,16 @@
             {% endfor %}
         </div>
         <br>
+
         <br>
+
         <div class="pagination">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
-                        <a href="?page=1">&laquo; в начало</a>
-                        <a href="?page={{ page_obj.previous_page_number }}">предыдущая</a>
+                        <a href="?page=1{% if query_params %}&{{ query_params }}{% endif %}">&laquo; в начало</a>
+                        <a href="?page=
+                                {{ page_obj.previous_page_number }}{% if query_params %}&{{ query_params }}{% endif %}">
+                            предыдущая</a>
                     {% endif %}
 
                     <span class="current">
@@ -102,8 +105,11 @@
                     </span>
 
                     {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">следущая</a>
-                        <a href="?page={{ page_obj.paginator.num_pages }}">в конец &raquo;</a>
+                        <a href="?page={{ page_obj.next_page_number }}{% if query_params %}&{{ query_params }}{% endif %}
+                            ">следущая</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}
+                            {% if query_params %}&{{ query_params }}{% endif %}
+                            ">в конец &raquo;</a>
                     {% endif %}
                 </span>
         </div>

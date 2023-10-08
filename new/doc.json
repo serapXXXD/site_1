@@ -1,0 +1,1146 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Blog",
+        "description": "yasg_description",
+        "license": {
+            "name": "BSD License"
+        },
+        "version": "v1"
+    },
+    "host": "127.0.0.1:8000",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/api/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Basic": {
+            "type": "basic"
+        }
+    },
+    "security": [
+        {
+            "Basic": []
+        }
+    ],
+    "paths": {
+        "/cats/": {
+            "get": {
+                "operationId": "cats_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The initial index from which to return the results.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "required": [
+                                "count",
+                                "results"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "next": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "previous": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "results": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Category"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "cats"
+                ]
+            },
+            "post": {
+                "operationId": "cats_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                },
+                "tags": [
+                    "cats"
+                ]
+            },
+            "parameters": []
+        },
+        "/cats/{id}/": {
+            "get": {
+                "operationId": "cats_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                },
+                "tags": [
+                    "cats"
+                ]
+            },
+            "put": {
+                "operationId": "cats_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                },
+                "tags": [
+                    "cats"
+                ]
+            },
+            "patch": {
+                "operationId": "cats_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                },
+                "tags": [
+                    "cats"
+                ]
+            },
+            "delete": {
+                "operationId": "cats_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "cats"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Категория.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        },
+        "/login/": {
+            "post": {
+                "operationId": "login_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Token"
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                },
+                "tags": [
+                    "login"
+                ]
+            },
+            "parameters": []
+        },
+        "/posts/": {
+            "get": {
+                "operationId": "posts_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "author__username",
+                        "in": "query",
+                        "description": "author__username",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tags__title",
+                        "in": "query",
+                        "description": "tags__title",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "category__title",
+                        "in": "query",
+                        "description": "category__title",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The initial index from which to return the results.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "required": [
+                                "count",
+                                "results"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "next": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "previous": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "results": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Post"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "posts"
+                ]
+            },
+            "post": {
+                "operationId": "posts_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PostCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/PostCreate"
+                        }
+                    }
+                },
+                "tags": [
+                    "posts"
+                ]
+            },
+            "parameters": []
+        },
+        "/posts/subscriptions/": {
+            "get": {
+                "operationId": "posts_subscriptions",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "author__username",
+                        "in": "query",
+                        "description": "author__username",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tags__title",
+                        "in": "query",
+                        "description": "tags__title",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "category__title",
+                        "in": "query",
+                        "description": "category__title",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The initial index from which to return the results.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "required": [
+                                "count",
+                                "results"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "next": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "previous": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "results": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Post"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "posts"
+                ]
+            },
+            "parameters": []
+        },
+        "/posts/{id}/": {
+            "get": {
+                "operationId": "posts_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Post"
+                        }
+                    }
+                },
+                "tags": [
+                    "posts"
+                ]
+            },
+            "put": {
+                "operationId": "posts_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PostPatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/PostPatch"
+                        }
+                    }
+                },
+                "tags": [
+                    "posts"
+                ]
+            },
+            "patch": {
+                "operationId": "posts_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PostPatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/PostPatch"
+                        }
+                    }
+                },
+                "tags": [
+                    "posts"
+                ]
+            },
+            "delete": {
+                "operationId": "posts_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "posts"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Запись в блоге.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        },
+        "/posts/{id}/like/": {
+            "post": {
+                "operationId": "posts_like",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Post"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Post"
+                        }
+                    }
+                },
+                "tags": [
+                    "posts"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Запись в блоге.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        },
+        "/tags/": {
+            "get": {
+                "operationId": "tags_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The initial index from which to return the results.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "required": [
+                                "count",
+                                "results"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "next": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "previous": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "results": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Tag"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "tags"
+                ]
+            },
+            "post": {
+                "operationId": "tags_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                },
+                "tags": [
+                    "tags"
+                ]
+            },
+            "parameters": []
+        },
+        "/tags/{id}/": {
+            "get": {
+                "operationId": "tags_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                },
+                "tags": [
+                    "tags"
+                ]
+            },
+            "put": {
+                "operationId": "tags_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                },
+                "tags": [
+                    "tags"
+                ]
+            },
+            "patch": {
+                "operationId": "tags_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Tag"
+                        }
+                    }
+                },
+                "tags": [
+                    "tags"
+                ]
+            },
+            "delete": {
+                "operationId": "tags_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "tags"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Тег.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        },
+        "/users/": {
+            "get": {
+                "operationId": "users_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The initial index from which to return the results.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "required": [
+                                "count",
+                                "results"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "next": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "previous": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "results": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
+        },
+        "/users/{id}/": {
+            "get": {
+                "operationId": "users_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this пользователь.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        },
+        "/users/{id}/subscribe/": {
+            "post": {
+                "operationId": "users_subscribe",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this пользователь.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        },
+        "/users/{id}/unsubscribe/": {
+            "delete": {
+                "operationId": "users_unsubscribe",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this пользователь.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "Category": {
+            "required": [
+                "slug",
+                "title"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "slug": {
+                    "title": "Слаг",
+                    "type": "string",
+                    "format": "slug",
+                    "pattern": "^[-a-zA-Z0-9_]+$",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
+                "title": {
+                    "title": "Название",
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                }
+            }
+        },
+        "Login": {
+            "required": [
+                "username",
+                "password"
+            ],
+            "type": "object",
+            "properties": {
+                "username": {
+                    "title": "Username",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "password": {
+                    "title": "Password",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "Token": {
+            "required": [
+                "token"
+            ],
+            "type": "object",
+            "properties": {
+                "token": {
+                    "title": "Token",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "Error": {
+            "required": [
+                "detail"
+            ],
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "title": "Detail",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "Post": {
+            "required": [
+                "tags",
+                "title",
+                "body"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "uniqueItems": true
+                },
+                "author": {
+                    "title": "Author",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "category": {
+                    "$ref": "#/definitions/Category"
+                },
+                "title": {
+                    "title": "Название",
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                },
+                "photo": {
+                    "title": "Фото",
+                    "type": "string",
+                    "readOnly": true,
+                    "x-nullable": true,
+                    "format": "uri"
+                },
+                "body": {
+                    "title": "Текст поста",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "created_at": {
+                    "title": "Дата создания",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true
+                },
+                "updated_at": {
+                    "title": "Дата изменения",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true
+                }
+            }
+        },
+        "PostCreate": {
+            "required": [
+                "title",
+                "body",
+                "category",
+                "tags"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "title": {
+                    "title": "Название",
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                },
+                "photo": {
+                    "title": "Фото",
+                    "type": "string",
+                    "readOnly": true,
+                    "x-nullable": true,
+                    "format": "uri"
+                },
+                "body": {
+                    "title": "Текст поста",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "created_at": {
+                    "title": "Дата создания",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true
+                },
+                "updated_at": {
+                    "title": "Дата изменения",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true
+                },
+                "category": {
+                    "title": "Категория",
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "title": "Тэги",
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                }
+            }
+        },
+        "PostPatch": {
+            "required": [
+                "title",
+                "body"
+            ],
+            "type": "object",
+            "properties": {
+                "title": {
+                    "title": "Название",
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                },
+                "body": {
+                    "title": "Текст поста",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "Tag": {
+            "required": [
+                "slug",
+                "title"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "slug": {
+                    "title": "Слаг",
+                    "type": "string",
+                    "format": "slug",
+                    "pattern": "^[-a-zA-Z0-9_]+$",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
+                "title": {
+                    "title": "Название",
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                }
+            }
+        },
+        "User": {
+            "required": [
+                "username"
+            ],
+            "type": "object",
+            "properties": {
+                "username": {
+                    "title": "Имя пользователя",
+                    "description": "Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.",
+                    "type": "string",
+                    "pattern": "^[\\w.@+-]+$",
+                    "maxLength": 150,
+                    "minLength": 1
+                },
+                "first_name": {
+                    "title": "Имя",
+                    "type": "string",
+                    "maxLength": 150
+                },
+                "last_name": {
+                    "title": "Фамилия",
+                    "type": "string",
+                    "maxLength": 150
+                },
+                "email": {
+                    "title": "Адрес электронной почты",
+                    "type": "string",
+                    "format": "email",
+                    "maxLength": 254
+                }
+            }
+        }
+    }
+}

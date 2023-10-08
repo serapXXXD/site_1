@@ -32,7 +32,7 @@
                             <a class='text-sheet'
                                href="{% url 'authentication:unsubscribe' post.author.id %}">отписаться</a>
                         {% else %}
-                            <a class='text-sheet' href="{% url 'authentication:subscibe' post.author.id %}">
+                            <a class='text-sheet' href="{% url 'authentication:subscribe' post.author.id %}">
                                 подписаться на автора</a>
                         {% endif %}
                     {% endif %}
@@ -69,9 +69,17 @@
             <div class="card__footer_elements padding-top-20">
                 <div class="card__footer">
 
-                    <button class="card__footter__button card__footter__button__like" id="likeBtn">
+                    {% if request.user == post.author %}
+                    <button class="card__footter__button card__footter__button__like" id="likeBtn"
+                            onclick="toggleBlock('like')">
                     </button>
-                    <b class="text-sheet">{{ post.likes.count }}</b>
+                    {% else %}
+                    <button class="card__footter__button card__footter__button__like
+                    {% if like %}button__like__pressed{% endif %}
+                    " id="setLikeBtn" onclick="like({{ post.id }})">
+                    </button>
+                    {% endif %}
+                    <b class="text-sheet" id="likesCount">{{ post.likes.count }}</b>
 
 
                     <button class="card__footter__button card__footter__button__comment" id="commentsBtn">

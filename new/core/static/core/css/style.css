@@ -318,8 +318,6 @@ button:hover {
     padding: 15px;
 }
 
-
-
 .commetnts__comment {
     display: grid;
     grid-template-columns: 1fr 4fr;

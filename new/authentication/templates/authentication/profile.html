@@ -6,11 +6,11 @@
 {% endblock title %}
 
 {% block content %}
-<main class="container">
+    <main class="container">
         <section class="frame__profile">
             <div class="card__feed__profile">
                 <div class="profile__edit">
-                    <a class="profile__text__edit" href="#">Edit</a>
+                    <a class="profile__text__edit" href="{% url 'authentication:profile_edit' %}">Edit</a>
                 </div>
                 <div class="profile__main">
                     <div class="profile__foto" style="background-image: url('{% static 'core/img/svg/' %}');"></div>
@@ -33,39 +33,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="">
+                        {% if subscribers.count > 0 %}
+                            На вас подписаны:
+                            <ul>
+                                {% for subs in subscribers %}
+                                    <li>
+                                        <a class="userlink"
+                                           href="{% url 'blog:index' %}?user={{ subs.subscriber.username }}">
+                                            {{ subs.subscriber }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                {% else %}
+                                <b>На Вас ещё не кто не подписан</b>
+
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div>
+                        Вы подписаны на:
+                        <ul>
+                            {% for subs in subscriptions %}
+                                <li>
+                                    <a class="userlink" href="{% url 'blog:index' %}?user={{ subs.author.username }}">
+                                        {{ subs.author }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
-
-            <form method="post">
-
-            {% csrf_token %}
-            {{ form.as_p }}
-
-            <button type="submit">Изменить</button>
-
-        </form>
-    <div>
-        {% if subscribers.count > 0 %}
-            <br>
-            На вас подписаны:
-            <ul>
-                {% for subs in subscribers %}
-                    <li>{{ subs.subscriber }}</li>
-                {% endfor %}
-
-                {% else %}
-                <b>На Вас ещё не кто не подписан</b>
-
-            </ul>
-        {% endif %}
-    </div>
-    <div>
-        Вы подписаны на:
-        <ul>
-            {% for subs in subscriptions %}
-                <li>{{ subs.author }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    </section>
+    </main>
 {% endblock content %}

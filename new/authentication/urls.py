@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import LoginUserView, RegisterUser, ProfileView, SubscribeView, unsubscribe_view, subscribe_post_view
+from .views import (LoginUserView, RegisterUser, ProfileView, SubscribeView,
+                    unsubscribe_view, subscribe_post_view, ProfileEdit)
 from django.contrib.auth.views import LogoutView 
 
 app_name = 'authentication'
@@ -9,7 +10,9 @@ urlpatterns = [
     path('login/', LoginUserView.as_view(), name='login'),
     path('registration/', RegisterUser.as_view(), name='registration'),
     path('profile/', ProfileView.as_view(), name='profile'),
-    path('subscibe/<int:author_id>/', SubscribeView.as_view(), name='subscibe'),
+    path('profile/edit/', ProfileEdit.as_view(), name='profile_edit'),
+    path('subscibe/<int:author_id>/', SubscribeView.as_view(), name='subscribe'),
     path('unsubscribe/<int:author_id>/', unsubscribe_view, name='unsubscribe'),
-    path('subscibe_list/', subscribe_post_view, name='subscibe_list'),
+    path('subscibe_list/', subscribe_post_view, name='subscribe_list'),
+
 ]

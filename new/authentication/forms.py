@@ -20,7 +20,6 @@ class ProfileUserForm(ProfileUserFormValodator, forms.ModelForm):
         widget=forms.PasswordInput, required=False, validators=[validate_password])
     password2 = forms.CharField(
         widget=forms.PasswordInput, required=False)
-    birthday = forms.DateField()
 
     class Meta:
         model = User

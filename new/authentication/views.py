@@ -2,12 +2,14 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import DetailView
 from django.core.paginator import Paginator
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from .forms import RegisterUserForm, ProfileUserForm
 from .models import Subscription, Like
+from .mixins import ProfileMixin
 from blog.models import Post
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import get_user_model
@@ -27,22 +29,10 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy('authentication:login')
 
 
-class ProfileView(LoginRequiredMixin, UpdateView):
+class ProfileView(LoginRequiredMixin, ProfileMixin, DetailView):
     model = User
     template_name = 'authentication/profile.html'
     success_url = reverse_lazy('authentication:profile')
-    form_class = ProfileUserForm
-
-    def get_object(self, **kwargs):
-        return self.request.user
-
-    def form_valid(self, form):
-        user = form.save()
-        password = form.cleaned_data.get('password1')
-        print(form.cleaned_data)
-        if password != "" and password:
-            user.set_password(password)
-        return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,6 +41,21 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         context['subscribers'] = self.request.user.subscribers.all()
         context['subscriptions'] = self.request.user.subscriptions.all()
         return context
+
+
+class ProfileEdit(LoginRequiredMixin, ProfileMixin, UpdateView):
+    model = User
+    template_name = 'authentication/profile_edit.html'
+    success_url = reverse_lazy('authentication:profile')
+    form_class = ProfileUserForm
+
+    def form_valid(self, form):
+        user = form.save()
+        password = form.cleaned_data.get('password1')
+        print(form.cleaned_data)
+        if password != "" and password:
+            user.set_password(password)
+        return super().form_valid(form)
 
 
 class SubscribeView(LoginRequiredMixin, View):
@@ -70,6 +75,7 @@ class SubscribeView(LoginRequiredMixin, View):
         return redirect(next)
 
 
+@login_required
 def unsubscribe_view(request, author_id):
     unsubscribe = Subscription.objects.filter(author_id=author_id, subscriber=request.user)
 

@@ -19,8 +19,8 @@
               method="post" enctype="multipart/form-data">
 
             {% csrf_token %}
-
             {{ form|crispy }}
+
             <button type="submit">{% if 'add_post' in request.path %}Добавить{% else %}Обновить{% endif %}</button>
         </form>
     </section>

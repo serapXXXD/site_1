@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+
+import django_filters.rest_framework
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -39,12 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core.apps.CoreConfig',
     'crispy_forms',
     'crispy_tailwind',
     'rest_framework',
     'rest_framework.authtoken',
-    'core.apps.CoreConfig',
     'blog.apps.BlogConfig',
+    'drf_yasg',
+    'django_filters',
     'api.apps.ApiConfig',
     'authentication.apps.AuthenticationConfig',
     'allauth',
@@ -87,7 +91,12 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 13,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
+        'api.authentication.CsrfExemptSessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
 
 WSGI_APPLICATION = 'new.wsgi.application'

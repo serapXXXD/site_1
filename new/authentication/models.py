@@ -22,7 +22,7 @@ class Subscription(models.Model):
         ordering = ['-id']
         constraints = [
             models.UniqueConstraint(
-                fields=['subscriber', 'author'], name='unuque_together_subscriber_author'),
+                fields=['subscriber', 'author'], name='unique_together_subscriber_author'),
         ]
 
 
@@ -33,7 +33,6 @@ class Like(models.Model):
     # какой пост лайкают
     liked_post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name='likes')
-    # я думаю что вроде как больше полей то и не нужно
 
     class Meta:
         verbose_name = 'лайк'
