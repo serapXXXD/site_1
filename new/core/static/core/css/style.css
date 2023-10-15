@@ -69,6 +69,15 @@ button:hover {
 
 }
 
+.post__list__wrapper {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 .placeholder {
     width: 100%;
 }
@@ -182,19 +191,16 @@ button:hover {
     }
 }
 
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
+}
 
 
 .frame {
-    margin-left: auto;
-    margin-right: auto;
     width: 313px;
     height: 100%;
-
     border: 2px solid #9B9898;
-    /*border-top: none;  хотел уать полоску сверху но если пропписать то в "post.html" появляется разрыв*/
     background: rgba(255, 255, 255, 0.50);
-    box-shadow: 0px 2px 3px 2px rgba(155, 152, 152, 0.30);
+    box-shadow: 0 2px 3px 2px rgba(155, 152, 152, 0.30);
     backdrop-filter: blur(5px);
 }
 
@@ -205,7 +211,7 @@ button:hover {
     height: 100%;
     border: 1px solid #9B9898;
     background: rgba(255, 255, 255, 0.50);
-    box-shadow: 0px 2px 3px 2px rgba(155, 152, 152, 0.30);
+    box-shadow: 0 2px 3px 2px rgba(155, 152, 152, 0.30);
     backdrop-filter: blur(5px);
 }
 
@@ -432,11 +438,11 @@ button:hover {
     background-image: url('../img/svg/sotial/iconsTG24px.svg');
 }
 
-.selected{
+.selected {
     background-color: black;
     color: white;
 }
 
-.box-reply-to{
+.box-reply-to {
     border: 2px solid black;
 }

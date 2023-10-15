@@ -34,7 +34,16 @@
             <div class="login-wrapper">
 
                 <a class="login" href="#">Hey, {{ user.username }}</a>
-                <button class="login-btn button-foto" style="background-image: url('./static/img/svg/Ellipse2.svg');"
+                <button class="login-btn button-foto"
+                        {% if not socialAccount %}
+                            {% if user.photo %}
+                         style="background-image: url('{{ user.photo.url }}');"
+                            {% else %}
+                         style="background-image: url('{% static 'core/img/Anonymous_emblem.png' %}');"
+                            {% endif %}
+                        {% else %}
+                         style="background-image: url('{{ user.socialaccount_set.all.0.get_avatar_url }}');"
+                        {% endif %}
                         onclick="window.location.href='{% url "authentication:profile" %}'"></button>
             </div>
         {% endif %}

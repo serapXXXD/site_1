@@ -10,9 +10,9 @@ class BaseTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.test_user_1 = User.objects.create_user(username='user99', password='Qq123456')
+        cls.test_user_1 = User.objects.create_user(username='user99', email='3bngnbdjn@mail.com', password='Qq123456')
         cls.test_user_1.save()
-        cls.test_user_2 = User.objects.create_user(username='user100', password='Qq123456')
+        cls.test_user_2 = User.objects.create_user(username='user100',email='4bngnbdjn@mail.com', password='Qq123456')
         cls.test_user_2.save()
         cls.test_category = Category.objects.create(slug='test_cat', title='test_cat')
         cls.test_post = Post.objects.create(author=cls.test_user_1, title='123', body='321', category=cls.test_category)

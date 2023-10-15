@@ -148,6 +148,8 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
+AUTH_USER_MODEL = 'authentication.User'
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -172,9 +174,9 @@ LOGIN_REDIRECT_URL = 'blog:index'
 
 LOGOUT_REDIRECT_URL = 'blog:index'
 
-MEDIA_URL = '/photos/'
+MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'photos')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

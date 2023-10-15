@@ -119,9 +119,10 @@
 
 .tag {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 40px;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
 }
 
 .tag_button {

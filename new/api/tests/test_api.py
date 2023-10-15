@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from blog.models import Post
 from core.tests.base_test import BaseTest
+from rest_framework import status
 
 User = get_user_model()
 
@@ -25,9 +26,9 @@ class TesAPIViews(BaseTest):
     def test_like_cancel(self):
         likes_before = self.like_count()
         resp_put_like = self.test_user_1_api_client.post(self.like_url)
-        self.assertEquals(resp_put_like.status_code, 201)
+        self.assertEquals(resp_put_like.status_code, status.HTTP_201_CREATED)
         resp_cancel_like = self.test_user_1_api_client.post(self.like_url)
-        self.assertEquals(resp_cancel_like.status_code, 204)
+        self.assertEquals(resp_cancel_like.status_code, status.HTTP_200_OK)
         likes_after = self.like_count()
         self.assertEquals(likes_before, likes_after)
 

@@ -5,6 +5,7 @@ from django.views.generic import ListView
 from .forms import PostForm, CommentForm
 from authentication.models import Subscription, Like
 import re
+from allauth.socialaccount.models import SocialAccount
 
 
 class IndexSearchView(ListView):
@@ -12,7 +13,6 @@ class IndexSearchView(ListView):
     template_name = 'blog/index.html'
     context_object_name = 'posts'
     paginate_by = 5
-
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -44,18 +44,14 @@ class IndexSearchView(ListView):
         context['query'] = query
         context['query_tags'] = query_tags
         context['query_user'] = query_user
+        # context['socialAccount'] = SocialAccount.objects.filter(user=self.request.user).exists()
 
         if 'tags' in str(self.request) or 'user' in str(self.request) or 'search' in str(self.request):
             query_params = str(self.request).split('\'')[1][2:]
-            # print(query_params)
             if re.search(r'page=[\d]{0,9}&+', query_params):
-                # print(query_params)
                 query_params = re.split(r"page=[\d]{1,9}&", query_params)[1]
-
-            if re.search(r'page=[%20]{1,99}[\d]+', query_params):
-                query_params = re.split(r'%[\d][\d]', query_params)[-1][1:]
             context['query_params'] = query_params
-            # print(query_params)
+
         return context
 
 
@@ -74,22 +70,26 @@ def show_post(request, post_id):
 
     if request.user.is_authenticated:
         is_subscribe = Subscription.objects.filter(subscriber=request.user, author=post.author).exists()
-
-    like = Like.objects.filter(liked_post=post, liker=request.user).exists()
-
+    #############################################################
+    if request.user.is_authenticated:
+        like = Like.objects.filter(liked_post=post, liker=request.user).exists()
+    else:
+        like = None
+    #############################################################
+    # social_account = SocialAccount.objects.filter(user=request.user).exists()
     context = {
         'is_subscribe': is_subscribe,
         'post': post,
         'like': like,
         'post_title': post_title,
         'form': form,
+        # 'social_account': social_account,
     }
     return render(request, 'blog/post.html', context)
 
 
 def add_post(request):
     form = PostForm(request.POST or None, request.FILES or None)
-    # print('request form', request.POST)
 
     if form.is_valid():
         new_post = form.save(commit=False)
@@ -100,7 +100,6 @@ def add_post(request):
         return redirect('blog:index')
     else:
         print(form.errors)
-        # print('Валидация не пройдена')
     context = {'form': form}
 
     return render(request, 'blog/add_post.html', context)
@@ -115,6 +114,7 @@ def post_edit(request, post_id):
         if form.is_valid():
             form.save()
             return redirect('blog:post', post_id)
+
     context = {
         'post': post,
         'form': form,

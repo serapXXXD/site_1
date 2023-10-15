@@ -6,21 +6,41 @@
 {% endblock title %}
 
 {% block content %}
+        <div class="cut-line"></div>
     <main class="container">
         <section class="frame__profile">
             <div class="card__feed__profile">
                 <div class="profile__edit">
-                    <a class="profile__text__edit" href="{% url 'authentication:profile_edit' %}">Edit</a>
+                    <a class="profile__text__edit"
+                       href="
+{% if not socialAccount %}{% url 'authentication:profile_edit' %}
+{% else %}
+{% url 'authentication:profile_from_google_edit' %}
+{% endif %}"
+                    >Edit</a>
                 </div>
                 <div class="profile__main">
-                    <div class="profile__foto" style="background-image: url('{% static 'core/img/svg/' %}');"></div>
+                    <div class="profile__foto"
+                         {% if not socialAccount %}
+                            {% if user.photo %}
+                         style="background-image: url('{{ user.photo.url }}');"
+                            {% else %}
+                         style="background-image: url('{% static 'core/img/Anonymous_emblem.png' %}');"
+                            {% endif %}
+                        {% else %}
+                         style="background-image: url('{{ user.socialaccount_set.all.0.get_avatar_url }}');"
+                        {% endif %}
+                    >
+                    </div>
                     <div>
                         <div class="padding-top-60">
                             <b class="profile__text__name">{{ user.username }}</b>
                         </div>
                         <div class="padding-top-20">
-                            <b class="profile__text__description">Blockchain is a decentralized , tamper - resistant
-                                ledger that records transactions across
+                            <b class="profile__text__description">
+                                {% if user.description %}
+                                {{ user.description }}
+                                {% endif %}
                             </b>
                         </div>
                         <div class="padding-top-40">
@@ -53,6 +73,7 @@
                         {% endif %}
                     </div>
                     <div>
+                    {% if subscriptions.count > 0 %}
                         Вы подписаны на:
                         <ul>
                             {% for subs in subscriptions %}
@@ -62,7 +83,10 @@
                                     </a>
                                 </li>
                             {% endfor %}
+                        {% else %}
+                        <b>Вы ещё не на кого не подписаны</b>
                         </ul>
+                    {% endif %}
                     </div>
                 </div>
             </div>

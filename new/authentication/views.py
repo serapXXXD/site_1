@@ -7,13 +7,14 @@ from django.core.paginator import Paginator
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
-from .forms import RegisterUserForm, ProfileUserForm
+from .forms import RegisterUserForm, ProfileUserForm, ProfileFromGoogleForm
 from .models import Subscription, Like
 from .mixins import ProfileMixin
 from blog.models import Post
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
+from allauth.socialaccount.models import SocialAccount
 
 User = get_user_model()
 
@@ -40,6 +41,8 @@ class ProfileView(LoginRequiredMixin, ProfileMixin, DetailView):
         context['posts_count'] = Post.objects.filter(author=self.request.user).count()
         context['subscribers'] = self.request.user.subscribers.all()
         context['subscriptions'] = self.request.user.subscriptions.all()
+        context['socialAccount'] = SocialAccount.objects.filter(user=self.request.user).exists()
+
         return context
 
 
@@ -56,6 +59,13 @@ class ProfileEdit(LoginRequiredMixin, ProfileMixin, UpdateView):
         if password != "" and password:
             user.set_password(password)
         return super().form_valid(form)
+
+
+class ProfileFromGoogleEdit(LoginRequiredMixin, ProfileMixin, UpdateView):
+    model = User
+    template_name = 'authentication/profile_from_google_edit.html'
+    success_url = reverse_lazy('authentication:profile')
+    form_class = ProfileFromGoogleForm
 
 
 class SubscribeView(LoginRequiredMixin, View):

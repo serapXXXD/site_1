@@ -1,5 +1,4 @@
 from django.contrib import admin
-from authentication.models import Profile
 from .models import Post, Category, Tag, Comment
 
 
@@ -27,4 +26,3 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Comment, CommentAdmin)
-admin.site.register(Profile, ProfileAdmin)

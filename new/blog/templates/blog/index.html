@@ -7,25 +7,9 @@
 
 {% block content %}
     <div class="cut-line"></div>
+    <div class="post__list__wrapper">
     <section class="frame">
-        {#    теги перенести вправо #}
-        <div class="tag">
-            {% for tag in tags %}
-                <button
-                        id='tagBtn{{ tag.id }}' |
-                        data-option="{{ tag.slug }}Option"
-                        onclick="toggleTag(this)"
-                        {% if tag.slug in query_tags %}
-                        class="tag_button selected"
-                        {% else %}
-                        class="tag_button"
-                        {% endif %}
-                >
-                    {{ tag.title }}</button>
-            {% endfor %}
-        </div>
-
-        <div class="input-search">
+        <div class="input-search padding-top-20">
             <form id="tagsForm" action="{% url 'blog:index' %}" method="get">
                 <select class="hidden" name="tags" multiple>
                     {% for tag in tags %}
@@ -52,12 +36,18 @@
                     {% if post.author %}
                         <div class="card__header">
                             <button class="login-btn button-foto"
-                                    style="background-image: url('{% static 'core/img/svg/Ellipse4.svg' %}');"
-                                    onclick="window.location.href='#'"></button>
-                            <a class="login" href="{% url 'blog:index' %}?user={{ post.author }}">Автор поста: {{ post.author }}
+                            {% if user.photo %}
+                         style="background-image: url('{{ user.photo.url }}');"
+                            {% else %}
+                         style="background-image: url('{% static 'core/img/Anonymous_emblem.png' %}');"
+                            {% endif %}
+                            ></button>
+                            <a class="login"
+                               href="{% url 'blog:index' %}?user={{ post.author }}">Автор поста: {{ post.author }}
                             </a>
                         </div>
                     {% endif %}
+
 
                     <div class="card__body">
                         {#                        придумать что делать с фото!!#}
@@ -95,8 +85,8 @@
                 <span class="step-links">
                     {% if page_obj.has_previous %}
                         <a href="?page=1{% if query_params %}&{{ query_params }}{% endif %}">&laquo; в начало</a>
-                        <a href="?page=
-                                {{ page_obj.previous_page_number }}{% if query_params %}&{{ query_params }}{% endif %}">
+                        <a href="?page={{ page_obj.previous_page_number }}{% if query_params %}&{{ query_params }}
+{% endif %}">
                             предыдущая</a>
                     {% endif %}
 
@@ -114,6 +104,25 @@
                 </span>
         </div>
     </section>
+    <aside>
+        <div class="tag">
+            {% for tag in tags %}
+                <button
+                        id='tagBtn{{ tag.id }}' |
+                        data-option="{{ tag.slug }}Option"
+                        onclick="toggleTag(this)"
+                        {% if tag.slug in query_tags %}
+                        class="tag_button selected"
+                        {% else %}
+                        class="tag_button"
+                        {% endif %}
+                >
+                    {{ tag.title }}</button>
+            {% endfor %}
+        </div>
+    </aside>
+    </div>
+
 {% endblock content %}
 
 {% block js %}

@@ -1,13 +1,11 @@
 from django.db import models
-from blog.models import Post
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from django.contrib.auth.models import AbstractUser, Permission, Group
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class User(AbstractUser):
     photo = models.ImageField(null=True, blank=True, upload_to='user_photos', verbose_name='Аватар')
+    email = models.EmailField(unique=True, max_length=64)
+    description = models.CharField(null=True, blank=True, max_length=255, verbose_name='О себе')
 
 
 class Subscription(models.Model):
@@ -27,12 +25,10 @@ class Subscription(models.Model):
 
 
 class Like(models.Model):
-    # кто лайкает
     liker = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='likes')
-    # какой пост лайкают
     liked_post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='likes')
+        'blog.Post', on_delete=models.CASCADE, related_name='likes')
 
     class Meta:
         verbose_name = 'лайк'

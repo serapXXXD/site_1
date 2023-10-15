@@ -20,7 +20,14 @@ class ProfileUserForm(ProfileUserFormValodator, forms.ModelForm):
         widget=forms.PasswordInput, required=False, validators=[validate_password])
     password2 = forms.CharField(
         widget=forms.PasswordInput, required=False)
+    photo = forms.ImageField(required=False)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'photo', 'email', 'description', 'password1', 'password2')
+
+
+class ProfileFromGoogleForm(ProfileUserFormValodator, forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'description',)
