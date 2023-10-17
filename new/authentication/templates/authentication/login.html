@@ -40,11 +40,13 @@
                 <div class="input-wrapper">
                     <button id="loginBtn" class="btn">login</button>
                 </div>
+            {% if debug %}
                 <div class="input-wrapper">
                     <button class="btn" onclick="window.location.href='{% provider_login_url 'google' %}'">
                         <i class="btn__icon btn__icon__google"></i>Sign up with google
                     </button>
                 </div>
+            {%  endif %}
                 <div>
                     <p class="text text-center">Don&rsquo;t have an account?
                         <a class="text text-bold" href="{% url 'authentication:registration' %}">Signup</a></p>
