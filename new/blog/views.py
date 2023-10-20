@@ -76,14 +76,15 @@ def show_post(request, post_id):
     else:
         like = None
     #############################################################
-    # social_account = SocialAccount.objects.filter(user=request.user).exists()
+
+    like_list = Like.objects.filter(liked_post=post_id)
     context = {
         'is_subscribe': is_subscribe,
         'post': post,
         'like': like,
         'post_title': post_title,
         'form': form,
-        # 'social_account': social_account,
+        'like_list': like_list,
     }
     return render(request, 'blog/post.html', context)
 

@@ -36,11 +36,15 @@
                     {% if post.author %}
                         <div class="card__header">
                             <button class="login-btn button-foto"
-                            {% if user.photo %}
-                         style="background-image: url('{{ user.photo.url }}');"
+                        {% if not post.author.is_social_account %}
+                            {% if post.author.photo %}
+                         style="background-image: url('{{ post.author.photo.url }}');"
                             {% else %}
                          style="background-image: url('{% static 'core/img/Anonymous_emblem.png' %}');"
                             {% endif %}
+                        {% else %}
+                         style="background-image: url('{{ post.author.socialaccount_set.all.0.get_avatar_url }}');"
+                        {% endif %}
                             ></button>
                             <a class="login"
                                href="{% url 'blog:index' %}?user={{ post.author }}">Автор поста: {{ post.author }}

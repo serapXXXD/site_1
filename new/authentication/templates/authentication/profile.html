@@ -13,7 +13,7 @@
                 <div class="profile__edit">
                     <a class="profile__text__edit"
                        href="
-{% if not socialAccount %}{% url 'authentication:profile_edit' %}
+{% if not social_account %}{% url 'authentication:profile_edit' %}
 {% else %}
 {% url 'authentication:profile_from_google_edit' %}
 {% endif %}"
@@ -21,7 +21,7 @@
                 </div>
                 <div class="profile__main">
                     <div class="profile__foto"
-                         {% if not socialAccount %}
+                         {% if not social_account %}
                             {% if user.photo %}
                          style="background-image: url('{{ user.photo.url }}');"
                             {% else %}

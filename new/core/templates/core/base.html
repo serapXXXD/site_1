@@ -35,7 +35,7 @@
 
                 <a class="login" href="#">Hey, {{ user.username }}</a>
                 <button class="login-btn button-foto"
-                        {% if not socialAccount %}
+                        {% if not social_account %}
                             {% if user.photo %}
                          style="background-image: url('{{ user.photo.url }}');"
                             {% else %}

@@ -13,28 +13,26 @@
                 {% if post.author %}
                     <div class="card__header">
                         <button class="login-btn button-foto"
-                         {% if not socialAccount %}
-                            {% if user.photo %}
-                         style="background-image: url('{{ user.photo.url }}');"
+                        {% if not post.author.is_social_account %}
+                            {% if post.author.photo %}
+                         style="background-image: url('{{ post.author.photo.url }}');"
                             {% else %}
                          style="background-image: url('{% static 'core/img/Anonymous_emblem.png' %}');"
                             {% endif %}
                         {% else %}
-                         style="background-image: url('{{ user.socialaccount_set.all.0.get_avatar_url }}');"
+                         style="background-image: url('{{ post.author.socialaccount_set.all.0.get_avatar_url }}');"
                         {% endif %}
                         ></button>
                         <b class="login">Автор поста: {{ post.author }}
                         </b>
                     </div>
                 {% endif %}
-                {#                <h4>Автор поста: {{ post.author }}</h4>#}
                 <div class="subscibe-field">
                     <div class="card__body">
                         <b class="text-sheet">
                             Тема: {{ post.title }}
                         </b>
                     </div>
-
                     {% if request.user != post.author and post.author and user.is_authenticated %}
                         {% if is_subscribe %}
                             <a class='text-sheet'
@@ -46,16 +44,13 @@
                     {% endif %}
                 </div>
             </div>
-
             {% if post.photo %}
                 <div class="">
-
                     <a href="{{ post.photo.url }}" target="_blank">
                         <img class="post__photo" src="{{ post.photo.url }}" alt="Здесь должна быть фотография,
                      но что-то пошло не так"></a>
                 </div>
             {% endif %}
-
             <hr>
             <div class="card__body">
                 <b class="text-sheet">{{ post.body }}</b>
@@ -89,11 +84,9 @@
                         {% endif %}
                         <b class="text-sheet" id="likesCount">{{ post.likes.count }}</b>
 
-
                         <button class="card__footter__button card__footter__button__comment" id="commentsBtn">
                         </button>
                         <b class="text-sheet">{{ post.comments.count }}</b>
-
 
                         <button class="card__footter__button card__footter__button__share" id="shareBtn">
                         </button>
@@ -101,145 +94,167 @@
                             <div class="share__frame">
                                 <div class="share__frame__item">share</div>
                                 <div class="share__frame__item">
-                                    <button class="profile__social__btn ">
+                                    <button class="profile__social__btn" onclick="window.location.href='#'">
                                         <i class="btn__icon share__whatsapp"></i>whatsapp
                                     </button>
                                 </div>
                                 <div class="share__frame__item">
-                                    <button class="profile__social__btn">
+                                    <button class="profile__social__btn" onclick="window.location.href='#'">
                                         <i class="btn__icon share__telegram"></i>telegram
                                     </button>
                                 </div>
                             </div>
                         </div>
-                </div>
                     {% endif %}
+                </div>
             </div>
 
             <div class="likes hidden" id="likeBlock">
                 <div>
                     <b class="text-sheet">All Likes</b>
                 </div>
+
+                {% for like in like_list%}
                 <div class="likes__like">
+
                     <div class="like-foto"
-                         style="background-image: url('{% static 'core/img/svg/Ellipse 1115.svg' %}');"
+                        {% if not like.liker.is_social_account %}
+                            {% if like.liker.photo %}
+                         style="background-image: url('{{ like.liker.photo.url }}');"
+                            {% else %}
+                         style="background-image: url('{% static 'core/img/Anonymous_emblem.png' %}');"
+                            {% endif %}
+                        {% else %}
+                         style="background-image: url('{{ like.liker.socialaccount_set.all.0.get_avatar_url }}');"
+                        {% endif %}
                     >
                     </div>
-                    <b class="text-sheet">Megan</b>
+
+                    <b class="text-sheet">{{ like.liker.username }}</b>
                 </div>
-                <div class="comments
-            {% if 'comments' in request.path %}
-            {% else %}
-            hidden
-            {% endif %}
-            " id="commentsBlock">
-                    <div class="input-wrapper">
-                        {% if user.is_authenticated %}
-                            <form
-                                    action="{% url 'blog:post' post.id %}" method="post">
+                {% endfor %}
+            </div>
+
+            <div class="comments
+                {% if 'comments' in request.path %}
+                {% else %}
+                    hidden
+                {% endif %}
+                " id="commentsBlock">
+
+                <div class="input-wrapper">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'blog:post' post.id %}" method="post">
                         <textarea name="text"
                                   class="comment-field add__comment__text" placeholder="Add your comment"
                                   id="addCommentText"
                         ></textarea>
-                                <div class="padding-top-20">
-                                    {{ form.text.errors }}
-                                </div>
-                                {% csrf_token %}
+                            <div class="padding-top-20">
+                                {{ form.text.errors }}
+                            </div>
+                            {% csrf_token %}
+                            <button class="btn" type="submit">Добавить комментарий</button>
+                        </form>
+                        <hr>
+                    {% endif %}
+                </div>
 
-                                <button class="btn" type="submit">Добавить комментарий</button>
-                            </form>
-                            <hr>
+                {% for com in post.comments.all %}
+                    <div class="commetnts__comment">
+
+                        <div class="padding-top-10">
+                            <div class="like-foto"
+                        {% if not com.author.is_social_account %}
+                            {% if com.author.photo %}
+                                 style="background-image: url('{{ com.author.photo.url }}');"
+                            {% else %}
+                                 style="background-image: url('{% static 'core/img/Anonymous_emblem.png' %}');"
+                            {% endif %}
+                        {% else %}
+                                 style="background-image: url('{{ com.author.socialaccount_set.all.0.get_avatar_url }}');"
                         {% endif %}
+                            ></div>
+                        </div>
 
-                    </div>
-                    {% for com in post.comments.all %}
-
-
-                        <div class="commetnts__comment">
-                            <div class="padding-top-10">
-                                <div class="like-foto"
-                                     style="background-image: url('{% static 'core/img/svg/Ellipse 1118.svg' %}');">
+                        <div>
+                            <div class="padding-15">
+                                <div>
+                                    <b class="comment__text__name">{{ com.author }}</b>
+                                    <b class="comment__text__date">{{ com.created_at }}</b>
                                 </div>
+                                {% if com.reply_to %}
+                                    <div>
+                                        <a href="#comment{{ com.reply_to.id }}"
+                                           onclick="selectComment('comment{{ com.reply_to.id }}')">
+                                            Ответ на кооментарий {{ com.reply_to.author }}:
+                                            >>{{ com.reply_to.id }}</a>
+                                    </div>
+                                {% endif %}
                             </div>
 
-                            <div>
-                                <div class="padding-15">
-                                    <div>
-                                        <b class="comment__text__name">{{ com.author }}</b>
-                                        <b class="comment__text__date">{{ com.created_at }}</b>
-                                    </div>
-                                    {% if com.reply_to %}
-                                        <div>
-                                            <a href="#comment{{ com.reply_to.id }}"
-                                               onclick="selectComment('comment{{ com.reply_to.id }}')">
-                                                Ответ на кооментарий {{ com.reply_to.author }}:
-                                                >>{{ com.reply_to.id }}</a>
-                                        </div>
-                                    {% endif %}
+                            <div class="comment-card" id="comment{{ com.id }}">
+                                <div>
+                                    <b class="comment__text__date">{{ com.text }}
+                                    </b>
                                 </div>
-
-
-                                <div class="comment-card" id="comment{{ com.id }}">
-                                    <div>
-                                        <b class="comment__text__date">{{ com.text }}
-                                        </b>
-                                    </div>
-                                    <div>
-                                        {% if com.author == request.user %}
-                                            <a class="comment__reply"
-                                               href="{% url 'blog:comment_edit' post.id com.id %}#comment{{ com.id }}">
-                                                Редактировать</a> |
-                                            <a class="comment__reply"
-                                               href="{% url 'blog:comment_delete' post.id com.id %}">
-                                                Удалить комментарий</a>
-                                            {% if comment.id == com.id %}
-                                                <form method="POST">
-                                        <textarea name="text"
+                                <div>
+                                    {% if com.author == request.user %}
+                                        <a class="comment__reply"
+                                           href="{% url 'blog:comment_edit' post.id com.id %}#comment{{ com.id }}">
+                                            Редактировать
+                                        </a> |
+                                        <a class="comment__reply"
+                                           href="{% url 'blog:comment_delete' post.id com.id %}">
+                                            Удалить комментарий
+                                        </a>
+                                        {% if comment.id == com.id %}
+                                            <form method="POST">
+                                                <textarea name="text"
                                                   class="comment-field add__comment__text"
                                                   placeholder="Add your comment"
                                                   id="addCommentText"
-                                        >{{ com.text }}</textarea>
-                                                    {% csrf_token %}
-                                                    <button class="btn" type="submit">Обновить комментарий</button>
-                                                </form>
-                                            {% endif %}
-                                        {% else %}
-                                            <a class="comment__reply"
-                                               href="{% url 'blog:comment_reply' post.id com.id %}#comment{{ com.id }}">Reply</a>
-                                            {% if reply_to.id == com.id %}
-                                                <form method="POST">
+                                                >{{ com.text }}</textarea>
+                                                {% csrf_token %}
+                                                <button class="btn" type="submit">Обновить комментарий</button>
+                                            </form>
+                                        {% endif %}
+                                    {% else %}
+                                        <a class="comment__reply"
+                                           href="{% url 'blog:comment_reply' post.id com.id %}#comment{{ com.id }}">Reply</a>
+                                        {% if reply_to.id == com.id %}
+                                            <form method="POST">
                                             <textarea name="text"
                                                       class="comment-field add__comment__text"
                                                       placeholder="Add your comment"
                                                       id="addCommentText"
                                             ></textarea>
-                                                    {% csrf_token %}
-                                                    <button class="btn" type="submit">Ответить на комментарий</button>
-                                                </form>
-                                            {% endif %}
+                                                {% csrf_token %}
+                                                <button class="btn" type="submit">Ответить на комментарий</button>
+                                            </form>
                                         {% endif %}
-                                    </div>
+                                    {% endif %}
                                 </div>
-
-                                {% if com.replies.exists %}
-                                    <div class="padding-15">
-                                        <b>Ответы:</b>
-                                        {% for reply in com.replies.all %}
-                                            <a href="#comment{{ reply.id }}"
-                                               onclick="selectComment('comment{{ reply.id }}')">
-                                                >> {{ reply.id }} <<
-                                            </a>
-                                            {% if not forloop.last %},{% endif %}
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
                             </div>
 
-                        </div>
-                    {% endfor %}
+                            {% if com.replies.exists %}
+                                <div class="padding-15">
+                                    <b>Ответы:</b>
+                                    {% for reply in com.replies.all %}
+                                        <a href="#comment{{ reply.id }}"
+                                           onclick="selectComment('comment{{ reply.id }}')">
+                                            >> {{ reply.id }} <<
+                                        </a>
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
 
-                </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
             </div>
+        </div>
         </div>
     </section>
 {% endblock content %}
