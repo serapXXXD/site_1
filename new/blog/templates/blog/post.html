@@ -116,8 +116,7 @@
 
                 {% for like in like_list%}
                 <div class="likes__like">
-
-                    <div class="like-foto login-btn"
+                    <div class="like-foto button-foto"
                         {% if like.liker not in social_users %}
                             {% if like.liker.photo %}
                          style="background-image: url('{{ like.liker.photo.url }}');"
@@ -129,7 +128,6 @@
                         {% endif %}
                     >
                     </div>
-
                     <b class="text-sheet">{{ like.liker.username }}</b>
                 </div>
                 {% endfor %}
