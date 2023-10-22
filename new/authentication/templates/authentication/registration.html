@@ -10,23 +10,23 @@
     <section class="grid-section">
         <div class="card">
             <div>
-                <h1 class="header">Create an account</h1>
-                <h4 class="header-secondary">Let&rsquo; blog it with Quilog</h4>
+                <h1 class="header">Создание аккаунта</h1>
+                <h4 class="header-secondary">Расскажи СториБлогу</h4>
             </div>
             <div class="card__body">
                 <form action="" method="POST" id="registrationForm">
                     {% csrf_token %}
                     <div class="input-wrapper">
-                        <input class="input" name="username" required type="text" placeholder="Name">
+                        <input class="input" name="username" required type="text" placeholder="Логин">
                     </div>
                     <div class="input-wrapper">
-                        <input class="input" name="email"  type="email" placeholder="Email">
+                        <input class="input" name="email"  type="email" placeholder="Почта">
                     </div>
                     <div class="input-wrapper">
-                        <input class="input" name="password1" required type="password" placeholder="Password">
+                        <input class="input" name="password1" required type="password" placeholder="Пароль">
                     </div>
                     <div class="input-wrapper">
-                        <input class="input" name="password2" required type="password" placeholder="Repeat password">
+                        <input class="input" name="password2" required type="password" placeholder="Повторите пароль">
                     </div>
                 </form>
                 <div class="placeholder placeholder-150 padding-top-40">
@@ -35,19 +35,19 @@
                     {% endfor %}
                 </div>
                 <div class="input-wrapper" id="registrationBtn">
-                    <button class="btn">Create account</button>
+                    <button class="btn">Cоздать аккаунт</button>
                 </div>
 
                 <div>
-                    <p class="text text-center">Already have account?
-                        <a class="text text-bold" href="{% url 'authentication:login' %}">Login</a></p>
+                    <p class="text text-center">Аккаунт уже есть?
+                        <a class="text text-bold" href="{% url 'authentication:login' %}">Войти</a></p>
                 </div>
             </div>
             <div class="card__footer"></div>
         </div>
 
         <div>
-            <h1 class="main-header text-center">Let&rsquo;s Blog it</h1>
+            <h1 class="main-header text-center">Расскажи</h1>
             <img class="super__picture__2" src="{% static 'core/img/svg/illustration.svg' %}" width="100%" height="auto"
                  alt="картинка упала">
         </div>
