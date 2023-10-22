@@ -10,10 +10,7 @@ urlpatterns = [
     path('blog/post/<int:post_id>/edit/', post_edit, name='post_edit'),
     path('blog/post/<int:post_id>/delete/', post_delete, name='post_delete'),
     path('blog/add_post/', add_post, name='add_post'),
-    path('blog/post/<int:post_id>/comments/<int:comment_id>/edit/',
-         comment_edit, name='comment_edit'),
-    path('blog/post/<int:post_id>/comments/<int:comment_id>/delete/',
-         comment_delete, name='comment_delete'),
-    path('blog/post/<int:post_id>/comments/<int:comment_id>/reply/',
-         comment_reply, name='comment_reply'),
+    path('blog/post/<int:post_id>/comments/<int:comment_id>/edit/', comment_edit, name='comment_edit'),
+    path('blog/post/<int:post_id>/comments/<int:comment_id>/delete/', comment_delete, name='comment_delete'),
+    path('blog/post/<int:post_id>/comments/<int:comment_id>/reply/', comment_reply, name='comment_reply'),
 ]

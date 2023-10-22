@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Tag, Comment
 from allauth.socialaccount.models import SocialAccount
-from django.db.models import Q, Prefetch
+from django.db.models import Q
 from django.views.generic import ListView
 from .forms import PostForm, CommentForm
 from authentication.models import Subscription, Like
@@ -40,7 +40,7 @@ class IndexSearchView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         query, query_tags, query_user = self.get_filters()
-        context['social_users'] = [acc.user for acc in SocialAccount.objects.all().select_related('user')]
+        context['social_users'] = [account.user for account in SocialAccount.objects.all().select_related('user')]
         context['tags'] = Tag.objects.all()
         context['query'] = query
         context['query_tags'] = query_tags
@@ -59,9 +59,8 @@ def show_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post_title = Post.objects.get(id=post_id)
     form = CommentForm(request.POST or None)
-    comments = Comment.objects.filter(post=post).select_related('author', 'reply_to',
-                                                                'reply_to__author').prefetch_related('replies',
-                                                                                                     'author__socialaccount_set')
+    comments = (Comment.objects.filter(post=post).select_related(
+        'author', 'reply_to', 'reply_to__author').prefetch_related('replies', 'author__socialaccount_set'))
     social_users = [acc.user for acc in SocialAccount.objects.all().select_related('user')]
 
     if form.is_valid():
@@ -79,7 +78,8 @@ def show_post(request, post_id):
     if request.user.is_authenticated:
         like = Like.objects.filter(liked_post=post, liker=request.user).exists()
 
-    like_list = Like.objects.filter(liked_post=post_id).prefetch_related('liker__socialaccount_set').select_related('liker')
+    like_list = Like.objects.filter(liked_post=post_id).prefetch_related('liker__socialaccount_set').select_related(
+        'liker')
     context = {
         'is_subscribe': is_subscribe,
         'social_users': social_users,
@@ -149,10 +149,8 @@ def comment_edit(request, comment_id, post_id):
 def comment_reply(request, comment_id, post_id):
     reply_to = get_object_or_404(Comment, id=comment_id)
     post = get_object_or_404(Post, id=post_id)
-    comments = Comment.objects.filter(post=post).select_related('author', 'reply_to',
-                                                                'reply_to__author').prefetch_related('replies',
-                                                                                                     'author__socialaccount_set')
-
+    comments = Comment.objects.filter(post=post).select_related(
+        'author', 'reply_to', 'reply_to__author').prefetch_related('replies', 'author__socialaccount_set')
 
     form = CommentForm(request.POST or None)
     if form.is_valid():

@@ -52,18 +52,16 @@
                         </div>
                     {% endif %}
 
-
                     <div class="card__body">
-                        {#                        придумать что делать с фото!!#}
+                        <b class="text-sheet">
+                            Тема: {{ post.title }}
+                        </b>
+                        <br>
                         {% if post.photo %}
                             <div class="post__img">
                                 <img class="post__photo" src="{{ post.photo.url }}">
                             </div>
                         {% endif %}
-                        <b class="text-sheet">
-                            Тема: {{ post.title }}
-                        </b>
-                        {#                        пока поставил бр НУЖНО ПОПРАВИТЬ!!!!#}
                         <br>
                         <b class="text-sheet">
                             {{ post.body | truncatechars:100 }}

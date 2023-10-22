@@ -64,7 +64,8 @@ class Comment(models.Model):
         auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(
         auto_now=True, verbose_name='Дата изменения')
-    reply_to = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Ответ на', null=True, blank=True, related_name='replies')
+    reply_to = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='Ответ на',
+                                 null=True, blank=True, related_name='replies')
 
     def __str__(self) -> str:
         return f"{self.post.title}: {self.text[:100]}"

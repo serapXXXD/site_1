@@ -3,7 +3,6 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView
-from django.core.paginator import Paginator
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
@@ -14,7 +13,6 @@ from blog.models import Post
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
-
 
 User = get_user_model()
 
@@ -93,18 +91,3 @@ def unsubscribe_view(request, author_id):
         return render(request, 'authentication/sub_error.html', {'error': 'подписка не найдена!'})
 
     return redirect('blog:index')
-
-
-@login_required
-def subscribe_post_view(request):
-    sub = Subscription.objects.filter(subscriber=request.user)
-    if not sub.exists():
-        return render(request, 'authentication/sub_error.html', {'error': 'Подписок ещё нет'})
-
-    authors = [s.author for s in sub]
-    object_list = Post.objects.filter(author__in=authors)
-    paginator = Paginator(object_list, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, 'authentication/subscribe_list.html', {'page_obj': page_obj})
