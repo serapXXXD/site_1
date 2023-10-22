@@ -21,12 +21,14 @@ from django.conf.urls.static import static
 from api.yasg import urlpatterns as doc_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include("blog.urls", namespace='blog')),
-    path('auth/', include("authentication.urls", namespace='authentication')),
-    path('api/v1/', include('api.urls', namespace='api')),
-    path('accounts/', include('allauth.urls')),
-] + doc_urls
+                  path('admin/', admin.site.urls),
+                  path('', include("blog.urls", namespace='blog')),
+                  path('auth/', include("authentication.urls", namespace='authentication')),
+                  path('api/v1/', include('api.urls', namespace='api')),
+                  path('accounts/', include('allauth.urls')),
+
+              ] + doc_urls
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [*static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
+                    path("__debug__/", include("debug_toolbar.urls")), ]
