@@ -7,9 +7,6 @@
 
 
 body {
-    /* background-image: url('../img/svg/background.svg');
-    background-size: 100%;
-    /* background-repeat: no-repeat; */
     min-height: 100vh;
 }
 
@@ -21,7 +18,6 @@ body {
     min-height: 100vh;
     z-index: -1;
     width: 100%;
-
 }
 
 header main footer {
@@ -52,21 +48,18 @@ button:hover {
     .container {
         width: 750px;
     }
-
 }
 
 @media (min-width: 992px) {
     .container {
         width: 970px;
     }
-
 }
 
 @media (min-width: 1200px) {
     .container {
         width: 1170px;
     }
-
 }
 
 .post__list__wrapper {
@@ -129,7 +122,6 @@ button:hover {
         margin: 42px;
     }
 }
-
 
 .card__header {
     display: flex;
@@ -194,7 +186,6 @@ button:hover {
 @media (min-width: 1200px) {
 }
 
-
 .frame {
     width: 313px;
     height: 100%;
@@ -228,7 +219,6 @@ button:hover {
     }
 }
 
-
 .button-foto {
     background-repeat: no-repeat;
     background-position: center;
@@ -241,8 +231,8 @@ button:hover {
     height: 45px;
     background-position: center;
     border-radius: 50%;
-    background: lightgray 50% cover no-repeat, #FFF;
-    box-shadow: 0px 0px 3px 0px rgba(220, 220, 220, 0.50);
+    background-repeat: no-repeat;
+    box-shadow: 0 0 3px 0 rgba(220, 220, 220, 0.50);
 }
 
 .likes {
@@ -324,7 +314,7 @@ button:hover {
     padding: 15px;
 }
 
-.commetnts__comment {
+.comments__comment {
     display: grid;
     grid-template-columns: 1fr 8fr;
     gap: 10px;

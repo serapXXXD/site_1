@@ -160,10 +160,9 @@
                 </div>
 
                 {% for com in comments %}
-                    <div class="commetnts__comment">
-
+                    <div class="comments__comment">
                         <div class="padding-top-10">
-                            <div class="like-foto"
+                            <div class="like-foto button-foto"
                         {% if com.author not in social_users%}
                             {% if com.author.photo %}
                                  style="background-image: url('{{ com.author.photo.url }}');"

@@ -8,8 +8,10 @@
 {% block content %}
     <div class="cut-line"></div>
     <div class="post__list__wrapper">
+
     <section class="frame">
         <div class="input-search padding-top-20">
+        <b class="margin-left-10 login">Поделись историей!</b>
             <form id="tagsForm" action="{% url 'blog:index' %}" method="get">
                 <select class="hidden" name="tags" multiple>
                     {% for tag in tags %}
@@ -24,7 +26,7 @@
                         </option>
                     {% endfor %}
                 </select>
-                <div class=" search-wrapper">
+                <div class="search-wrapper padding-top-20">
                     <input class="search-input" name="search" type="text">
                     <button type="submit">Поиск</button>
                 </div>
