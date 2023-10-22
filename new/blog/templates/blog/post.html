@@ -117,7 +117,7 @@
                 {% for like in like_list%}
                 <div class="likes__like">
 
-                    <div class="like-foto"
+                    <div class="like-foto login-btn"
                         {% if like.liker not in social_users %}
                             {% if like.liker.photo %}
                          style="background-image: url('{{ like.liker.photo.url }}');"
