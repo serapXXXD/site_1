@@ -51,7 +51,6 @@ class ProfileEdit(LoginRequiredMixin, ProfileMixin, UpdateView):
     def form_valid(self, form):
         user = form.save()
         password = form.cleaned_data.get('password1')
-        print(form.cleaned_data)
         if password != "" and password:
             user.set_password(password)
         return super().form_valid(form)
