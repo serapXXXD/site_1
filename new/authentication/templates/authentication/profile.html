@@ -17,7 +17,7 @@
 {% else %}
 {% url 'authentication:profile_from_google_edit' %}
 {% endif %}"
-                    >Edit</a>
+                    >Изменить</a>
                 </div>
                 <div class="profile__main">
                     <div class="profile__foto"
@@ -44,11 +44,11 @@
                             </b>
                         </div>
                         <div class="padding-top-40">
-                            <b class="profile__text__my_post">Liked Post:</b>
+                            <b class="profile__text__my_post">Лайкнутых постов:</b>
                             <b class="profile__text__digits">{{ likes_count }}</b>
                         </div>
                         <div class="padding-top-20">
-                            <b class="profile__text__my_post">My Post:</b>
+                            <b class="profile__text__my_post">Моих постов:</b>
                             <b class="profile__text__digits">{{ posts_count }}</b>
                         </div>
                     </div>
@@ -56,35 +56,35 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="">
                         {% if subscribers.count > 0 %}
-                            На вас подписаны:
+                            <b class="login">На вас подписаны:</b>
                             <ul>
                                 {% for subs in subscribers %}
                                     <li>
-                                        <a class="userlink"
+                                        <a class="text-sheet"
                                            href="{% url 'blog:index' %}?user={{ subs.subscriber.username }}">
                                             {{ subs.subscriber }}
                                         </a>
                                     </li>
                                 {% endfor %}
                                 {% else %}
-                                <b>На Вас ещё не кто не подписан</b>
+                                <b class="login">На Вас ещё не кто не подписан</b>
 
                             </ul>
                         {% endif %}
                     </div>
                     <div>
                     {% if subscriptions.count > 0 %}
-                        Вы подписаны на:
+                        <b class="login">Вы подписаны на:</b>
                         <ul>
                             {% for subs in subscriptions %}
                                 <li>
-                                    <a class="userlink" href="{% url 'blog:index' %}?user={{ subs.author.username }}">
+                                    <a class="text-sheet" href="{% url 'blog:index' %}?user={{ subs.author.username }}">
                                         {{ subs.author }}
                                     </a>
                                 </li>
                             {% endfor %}
                         {% else %}
-                        <b>Вы ещё не на кого не подписаны</b>
+                        <b class="login">Вы ещё не на кого не подписаны</b>
                         </ul>
                     {% endif %}
                     </div>

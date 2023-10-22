@@ -219,7 +219,8 @@
                                         {% endif %}
                                     {% else %}
                                         <a class="comment__reply"
-                                           href="{% url 'blog:comment_reply' post.id com.id %}#comment{{ com.id }}">Reply</a>
+                                           href="{% url 'blog:comment_reply' post.id com.id %}#comment{{ com.id }}">
+                                            Ответить</a>
                                         {% if reply_to.id == com.id %}
                                             <form method="POST">
                                             <textarea name="text"

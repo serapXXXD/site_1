@@ -9,18 +9,18 @@
     <section class="grid-section">
         <div class="card">
             <div>
-                <h1 class="header">Welcome</h1>
-                <h4 class="header-secondary">Login to your account</h4>
+                <h1 class="header">Добро пожаловать</h1>
+                <h4 class="header-secondary">Вход</h4>
             </div>
             <div class="card__body">
                 <form method="POST" action="" id="loginForm">
                     {% csrf_token %}
                     <div class="input-wrapper">
                         <input class="input" name="username" required type="text"
-                               placeholder="Enter username">
+                               placeholder="Логин">
                     </div>
                     <div class="input-wrapper">
-                        <input class="input" name="password" required type="password" placeholder="Enter Password">
+                        <input class="input" name="password" required type="password" placeholder="Пароль">
                     </div>
 {#                    <div class="remember">#}
 {#                        <div>#}
@@ -38,24 +38,24 @@
                     {% endfor %}
                 </div>
                 <div class="input-wrapper">
-                    <button id="loginBtn" class="btn">login</button>
+                    <button id="loginBtn" class="btn">Вход</button>
                 </div>
             {% if debug %}
                 <div class="input-wrapper">
                     <button class="btn" onclick="window.location.href='{% provider_login_url 'google' %}'">
-                        <i class="btn__icon btn__icon__google"></i>Sign up with google
+                        <i class="btn__icon btn__icon__google"></i>Войти с помощью google
                     </button>
                 </div>
             {%  endif %}
                 <div>
-                    <p class="text text-center">Don&rsquo;t have an account?
-                        <a class="text text-bold" href="{% url 'authentication:registration' %}">Signup</a></p>
+                    <p class="text text-center">Нет аккаунта?
+                        <a class="text text-bold" href="{% url 'authentication:registration' %}">Зарегистрируйся</a></p>
                 </div>
             </div>
             <div class="card__footer"></div>
         </div>
         <div>
-            <h1 class="main-header text-center">Let&rsquo;s Blog it</h1>
+            <h1 class="main-header text-center">Расскажи</h1>
             <img class="super__picture__2" src="{% static 'core/img/svg/illustration.svg' %}" width="100%" height="auto"
                  alt="картинка упала">
         </div>

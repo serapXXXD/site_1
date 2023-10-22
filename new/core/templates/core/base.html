@@ -20,20 +20,21 @@
 
 <header class="navbar-wrapper">
     <nav class="navbar">
-        <div><a class="logo" href="{% url 'blog:index' %}">Quilog</a>
+        <div><a class="logo" href="{% url 'blog:index' %}">СториБлог</a>
         </div>
         {% if not user.is_authenticated %}
             <div class="login-wrapper">
-                <a class="login" href="{% url 'authentication:login' %}">login</a> <b class="login">or</b>
-                <a class="login" href="{% url 'authentication:registration' %}">Signup</a>
+                <a class="login" href="{% url 'authentication:login' %}">Вход</a>
+                |
+                <a class="login" href="{% url 'authentication:registration' %}">Регистрация</a>
                 <button class="login-btn button-pic"></button>
             </div>
         {% else %}
             <a class="login" href="{% url 'blog:add_post' %}">Добавить запись</a>
-            <a class="login" href="{% url 'authentication:logout' %}">Logout</a>
+            <a class="login" href="{% url 'authentication:logout' %}">Выйти из профиля</a>
             <div class="login-wrapper">
 
-                <a class="login" href="#">Hey, {{ user.username }}</a>
+                <a class="login" href="#">Привет, {{ user.username }}</a>
                 <button class="login-btn button-foto"
                         {% if not social_account %}
                             {% if user.photo %}
