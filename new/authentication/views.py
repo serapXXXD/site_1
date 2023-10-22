@@ -39,8 +39,8 @@ class ProfileView(LoginRequiredMixin, ProfileMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['likes_count'] = Like.objects.filter(liker=self.request.user).count()
         context['posts_count'] = Post.objects.filter(author=self.request.user).count()
-        context['subscribers'] = self.request.user.subscribers.all()
-        context['subscriptions'] = self.request.user.subscriptions.all()
+        context['subscribers'] = self.request.user.subscribers.all().select_related('subscriber')
+        context['subscriptions'] = self.request.user.subscriptions.all().select_related('author')
         return context
 
 

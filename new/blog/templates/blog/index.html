@@ -36,7 +36,7 @@
                     {% if post.author %}
                         <div class="card__header">
                             <button class="login-btn button-foto"
-                        {% if not post.author.is_social_account %}
+                        {% if post.author not in social_users%}
                             {% if post.author.photo %}
                          style="background-image: url('{{ post.author.photo.url }}');"
                             {% else %}

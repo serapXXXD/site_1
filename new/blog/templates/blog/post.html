@@ -118,7 +118,7 @@
                 <div class="likes__like">
 
                     <div class="like-foto"
-                        {% if not like.liker.is_social_account %}
+                        {% if like.liker not in social_users %}
                             {% if like.liker.photo %}
                          style="background-image: url('{{ like.liker.photo.url }}');"
                             {% else %}
@@ -159,12 +159,12 @@
                     {% endif %}
                 </div>
 
-                {% for com in post.comments.all %}
+                {% for com in comments %}
                     <div class="commetnts__comment">
 
                         <div class="padding-top-10">
                             <div class="like-foto"
-                        {% if not com.author.is_social_account %}
+                        {% if com.author not in social_users%}
                             {% if com.author.photo %}
                                  style="background-image: url('{{ com.author.photo.url }}');"
                             {% else %}

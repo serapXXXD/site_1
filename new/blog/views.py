@@ -1,11 +1,11 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Tag, Comment
-from django.db.models import Q
+from allauth.socialaccount.models import SocialAccount
+from django.db.models import Q, Prefetch
 from django.views.generic import ListView
 from .forms import PostForm, CommentForm
 from authentication.models import Subscription, Like
 import re
-from allauth.socialaccount.models import SocialAccount
 
 
 class IndexSearchView(ListView):
@@ -29,7 +29,7 @@ class IndexSearchView(ListView):
         if query_user:
             queryset = queryset.filter(author__username=query_user)
 
-        return queryset
+        return queryset.select_related('author').prefetch_related('likes', 'comments', 'author__socialaccount_set')
 
     def get_filters(self):
         query_tags = self.request.GET.getlist('tags', '')
@@ -40,11 +40,11 @@ class IndexSearchView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         query, query_tags, query_user = self.get_filters()
+        context['social_users'] = [acc.user for acc in SocialAccount.objects.all().select_related('user')]
         context['tags'] = Tag.objects.all()
         context['query'] = query
         context['query_tags'] = query_tags
         context['query_user'] = query_user
-        # context['socialAccount'] = SocialAccount.objects.filter(user=self.request.user).exists()
 
         if 'tags' in str(self.request) or 'user' in str(self.request) or 'search' in str(self.request):
             query_params = str(self.request).split('\'')[1][2:]
@@ -59,6 +59,10 @@ def show_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post_title = Post.objects.get(id=post_id)
     form = CommentForm(request.POST or None)
+    comments = Comment.objects.filter(post=post).select_related('author', 'reply_to',
+                                                                'reply_to__author').prefetch_related('replies',
+                                                                                                     'author__socialaccount_set')
+    social_users = [acc.user for acc in SocialAccount.objects.all().select_related('user')]
 
     if form.is_valid():
         comment = form.save(commit=False)
@@ -70,18 +74,18 @@ def show_post(request, post_id):
 
     if request.user.is_authenticated:
         is_subscribe = Subscription.objects.filter(subscriber=request.user, author=post.author).exists()
-    #############################################################
+
+    like = None
     if request.user.is_authenticated:
         like = Like.objects.filter(liked_post=post, liker=request.user).exists()
-    else:
-        like = None
-    #############################################################
 
-    like_list = Like.objects.filter(liked_post=post_id)
+    like_list = Like.objects.filter(liked_post=post_id).prefetch_related('liker__socialaccount_set').select_related('liker')
     context = {
         'is_subscribe': is_subscribe,
+        'social_users': social_users,
         'post': post,
         'like': like,
+        'comments': comments,
         'post_title': post_title,
         'form': form,
         'like_list': like_list,
@@ -145,6 +149,10 @@ def comment_edit(request, comment_id, post_id):
 def comment_reply(request, comment_id, post_id):
     reply_to = get_object_or_404(Comment, id=comment_id)
     post = get_object_or_404(Post, id=post_id)
+    comments = Comment.objects.filter(post=post).select_related('author', 'reply_to',
+                                                                'reply_to__author').prefetch_related('replies',
+                                                                                                     'author__socialaccount_set')
+
 
     form = CommentForm(request.POST or None)
     if form.is_valid():
@@ -157,6 +165,7 @@ def comment_reply(request, comment_id, post_id):
 
     context = {
         'reply_to': reply_to,
+        'comments': comments,
         'post': post,
         'form': form,
     }
