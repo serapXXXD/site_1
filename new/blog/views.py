@@ -24,7 +24,8 @@ class IndexSearchView(ListView):
 
         if query_tags:
             tags = Tag.objects.filter(slug__in=query_tags)
-            queryset = queryset.filter(tags__in=tags)
+            for tag in tags:
+                queryset = queryset.filter(tags=tag)
 
         if query_user:
             queryset = queryset.filter(author__username=query_user)
