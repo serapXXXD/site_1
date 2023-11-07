@@ -1,0 +1,40 @@
+version: "3.3"
+
+services:
+  data_base:
+    image: postgres:16-alpine
+    restart: always
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+      - ./dump:/dump
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+
+  backend:
+    build: ../backend/new
+    restart: always
+    volumes:
+      - static_volume:/code/static
+      - media_volume:/code/media
+    depends_on:
+      - data_base
+    env_file:
+      - ./.env
+
+  nginx:
+    image: nginx:1.19.3-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/var/html/static/
+      - media_volume:/var/html/media/
+    depends_on:
+      - backend
+
+volumes:
+  postgres_volume:
+  static_volume:
+  media_volume:
