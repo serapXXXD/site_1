@@ -75,7 +75,7 @@ jobs:
                     echo POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} >> .env
                     echo POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} >> .env
                     echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
-                    echo SECRET_KEY_FOR_DJANGO=${{ secrets.SECRET_KEY_FOR_DJANGO }} >> .env
+                    echo SECRET_KEY_FOR_DJANGO='${{ secrets.SECRET_KEY_FOR_DJANGO }}' >> .env
                     docker-compose up -d
 #  send_message:
 #    runs-on: ubuntu-latest
