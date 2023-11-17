@@ -46,37 +46,40 @@ jobs:
           context: backend/new/
           file: backend/new/Dockerfile
           tags: seraphimy/site_1:latest
-#  # Деплой приложения на удалённый сервер
-#  deploy:
-#    runs-on: ubuntu-latest
-#    needs: build
-#    steps:
-#      - name: SSH deploy
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.HOST }}
-#          username: ${{ secrets.USER }}
-#          key: ${{ secrets.SSH_KEY }}
-#          # passphrase: ${{ secrets.PASSPHRASE }}
-#          script: |
-#            cd product_list_backend
-#            git pull
-#            cd infra
-#            docker pull thrashches/product_list_backend:1.0.0
-#            docker-compose stop
-#            docker-compose rm backend
-#            rm -rf .env
-#            touch .env
-#            echo DEBUG=0 >> .env
-#            echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
-#            echo DB_NAME=${{ secrets.DB_NAME }} >> .env
-#            echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-#            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
-#            echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-#            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+
+  # Деплой приложения на удалённый сервер
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: SSH deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+#          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            cd /home/serap/site/site_1
+            git pull
+            cd blog_infra
+            docker pull seraphimy/site_1:latest
+            docker-compose stop
+            docker-compose rm backend
+            rm -rf .env
+            touch .env
+            echo DEBUG=0 >> .env
+            echo POSTGRES_ENGINE=${{ secrets.DB_ENGINE }} >> .env
+            echo POSTGRES_NAME=${{ secrets.DB_NAME }} >> .env
+            echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+            echo POSTGRES_HOST=${{ secrets.DB_HOST }} >> .env
+            echo POSTGRES_PORT=${{ secrets.DB_PORT }} >> .env
 #            echo IQSMS_LOGIN=${{ secrets.IQSMS_LOGIN }} >> .env
 #            echo IQSMS_PASSWORD=${{ secrets.IQSMS_PASSWORD }} >> .env
-#            docker-compose up -d
+            echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+            echo SECRET_KEY_FOR_DJANGO=${{ secrets.SECRET_KEY_FOR_DJANGO }} >> .env
+            docker-compose up -d
 #  send_message:
 #    runs-on: ubuntu-latest
 #    needs: deploy
