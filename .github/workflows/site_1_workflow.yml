@@ -74,8 +74,6 @@ jobs:
                     echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
                     echo POSTGRES_HOST=${{ secrets.DB_HOST }} >> .env
                     echo POSTGRES_PORT=${{ secrets.DB_PORT }} >> .env
-            #            echo IQSMS_LOGIN=${{ secrets.IQSMS_LOGIN }} >> .env
-            #            echo IQSMS_PASSWORD=${{ secrets.IQSMS_PASSWORD }} >> .env
                     echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
                     echo SECRET_KEY_FOR_DJANGO=${{ secrets.SECRET_KEY_FOR_DJANGO }} >> .env
                     docker-compose up -d
