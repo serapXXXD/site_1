@@ -25,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY_FOR_DJANGO', 'django-insecure-*k7ls(7_kcjsgtr5egt_b%5=u0#^h+1fxxd#f_83)as9+znq6&')
+SECRET_KEY = os.environ.get('SECRET_KEY_FOR_DJANGO',
+                            'django-insecure-*k7ls(7_kcjsgtr5egt_b%5=u0#^h+1fxxd#f_83)as9+znq6&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG', default=1))
@@ -109,24 +110,25 @@ WSGI_APPLICATION = 'new.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# if DEBUG:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+# else:
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get('POSTGRES_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.environ.get('POSTGRES_NAME', default='postgres'),
+        'USER': os.environ.get('POSTGRES_USER', default='postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
+        'HOST': os.environ.get('POSTGRES_HOST', default='localhost'),
+        'PORT': os.environ.get('POSTGRES_PORT', default='5432'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': os.environ.get('POSTGRES_ENGINE', default='django.db.backends.postgresql'),
-            'NAME': os.environ.get('POSTGRES_NAME', default='postgres'),
-            'USER': os.environ.get('POSTGRES_USER', default='postgres'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
-            'HOST': os.environ.get('POSTGRES_HOST', default='localhost'),
-            'PORT': os.environ.get('POSTGRES_PORT', default='5432'),
-        }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
