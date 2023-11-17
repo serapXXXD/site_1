@@ -89,9 +89,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             sleep 5
-            docker exec -it blog_infra_backend_1 python manage.py migrate
+            docker exec blog_infra_backend_1 python manage.py migrate
             sleep 5
-            docker exec -it blog_infra_backend_1 python manage.py collectstatic --no-input
+            docker exec blog_infra_backend_1 python manage.py collectstatic --no-input
 
 #  send_message:
 #    runs-on: ubuntu-latest
