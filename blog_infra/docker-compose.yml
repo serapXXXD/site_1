@@ -13,8 +13,8 @@ services:
       - ./.env
 
   backend:
-#    build: ../backend/new
-    image: seraphimy/site_1:latest
+    build: ../backend/new
+#    image: seraphimy/site_1:latest
     restart: always
     volumes:
       - static_volume:/code/static
