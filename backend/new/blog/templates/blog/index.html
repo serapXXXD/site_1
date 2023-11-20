@@ -38,7 +38,7 @@
                     {% if post.author %}
                         <div class="card__header">
                             <button class="login-btn button-foto"
-                        {% if post.author not in social_users%}
+                        {% if post.author not in social_users %}
                             {% if post.author.photo %}
                          style="background-image: url('{{ post.author.photo.url }}');"
                             {% else %}
@@ -71,9 +71,20 @@
                     </div>
                     <div class="card__footer_elements">
                         <div class="card__footer__feed">
-                            <button class="card__footter__button card__footter__button__like"></button>
+                            <button class="card__footter__button card__footter__button__like"
+                                    {% if user.is_authenticated %}
+                                    onclick="window.location.href='{% url "blog:post" post.id %}'"
+                                    {% else %}
+                                    onclick="window.location.href='{% url 'authentication:login' %}'"
+                                    {% endif %}
+                            ></button>
                             <b class="text-sheet">{{ post.likes.count }}</b>
-                            <button class="card__footter__button card__footter__button__comment"></button>
+                            <button class="card__footter__button card__footter__button__comment"
+                                    {% if user.is_authenticated %}
+                                    onclick="window.location.href='{% url "blog:post" post.id %}'"
+                                    {% else %}
+                                    onclick="window.location.href='{% url 'authentication:login' %}'"
+                                    {% endif %}></button>
                             <b class="text-sheet">{{ post.comments.count }}</b>
                         </div>
                         <div><a class="text-sheet" href="{% url 'blog:post' post.id %}">Читать подробнее</a></div>
